@@ -41,7 +41,6 @@ export const useMintHero = (options?: UseMintHeroOptions) => {
       return result;
     },
     onSuccess: async (result) => {
-      // Show success toast immediately
       options?.showToast?.('Hero successfully minted! Refreshing collection...', 'success');
 
       // Immediately invalidate and refetch for real-time updates
@@ -63,7 +62,7 @@ export const useMintHero = (options?: UseMintHeroOptions) => {
         }
       });
 
-      // Backup refetch after short delay in case transaction isn't indexed yet
+      // Backup refetch
       setTimeout(async () => {
         await queryClient.refetchQueries({ 
           predicate: (query) => {

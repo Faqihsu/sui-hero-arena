@@ -6,7 +6,6 @@ import { LoadingSpinner } from './LoadingSpinner';
 interface MintFormData {
   name: string;
   heroClass: HeroClass;
-  backstory: string;
   attack: number;
   defense: number;
   imageUrl: string;
@@ -14,7 +13,6 @@ interface MintFormData {
 
 interface FormErrors {
   name?: string;
-  backstory?: string;
   attack?: string;
   defense?: string;
   imageUrl?: string;
@@ -29,7 +27,6 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
   const [formData, setFormData] = useState<MintFormData>({
     name: '',
     heroClass: HeroClass.ASSASSIN,
-    backstory: '',
     attack: 10,
     defense: 10,
     imageUrl: ''
@@ -43,10 +40,6 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
     
     if (!formData.name.trim()) {
       newErrors.name = 'Hero name is required';
-    }
-    
-    if (!formData.backstory.trim()) {
-      newErrors.backstory = 'Backstory is required';
     }
     
     if (formData.attack < 1 || formData.attack > 20) {
@@ -100,7 +93,6 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
       setFormData({
         name: '',
         heroClass: HeroClass.ASSASSIN,
-        backstory: '',
         attack: 10,
         defense: 10,
         imageUrl: ''
@@ -214,27 +206,6 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
             )}
           </div>
 
-          {/* Backstory */}
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
-              Backstory
-            </label>
-            <textarea
-              value={formData.backstory}
-              onChange={(e) => handleInputChange('backstory', e.target.value)}
-              rows={4}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
-              placeholder="Enter hero backstory..."
-              maxLength={500}
-            />
-            {errors.backstory && (
-              <p className="mt-1 text-sm text-red-400">{errors.backstory}</p>
-            )}
-            <p className="mt-1 text-xs text-slate-500">
-              {formData.backstory.length}/500 characters
-            </p>
-          </div>
-
           {/* Stats */}
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -244,7 +215,7 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
               <input
                 type="number"
                 min="1"
-                max="20"
+                max="100"
                 value={formData.attack}
                 onChange={(e) => handleInputChange('attack', parseInt(e.target.value) || 1)}
                 className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
@@ -261,7 +232,7 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
               <input
                 type="number"
                 min="1"
-                max="20"
+                max="100"
                 value={formData.defense}
                 onChange={(e) => handleInputChange('defense', parseInt(e.target.value) || 1)}
                 className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"

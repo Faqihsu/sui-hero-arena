@@ -19,7 +19,6 @@ export interface Hero {
   imageUrl: string;
   stats: HeroStats;
   owner: string;
-  backstory: string;
   createdAt: number;
 }
 

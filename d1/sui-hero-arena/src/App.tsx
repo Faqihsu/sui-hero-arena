@@ -16,7 +16,6 @@ import { useHeroes, useTransfer, useMintHero, useTrainHero, useTransferHero, use
 interface MintFormData {
   name: string;
   heroClass: HeroClass;
-  backstory: string;
   attack: number;
   defense: number;
   imageUrl: string;

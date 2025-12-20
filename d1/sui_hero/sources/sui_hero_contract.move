@@ -47,11 +47,11 @@ module sui_hero::hero {
             image_url,
         };
         
-        // Kirim langsung ke dompet pemanggil
+        // Transfer ke dompet pemanggil
         transfer::public_transfer(hero, tx_context::sender(ctx));
     }
 
-    // Fungsi Mutasi: Menambah XP dan Level Up
+    // Fungsi Mutasi: Level Up
     public entry fun train_hero(hero: &mut Hero) {
             hero.level = hero.level + 1;
     }

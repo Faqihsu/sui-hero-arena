@@ -44,11 +44,11 @@ export const useHeroes = (ownerAddress: string | null) => {
     },
     {
       enabled: !!ownerAddress,
-      staleTime: 0, // Always consider data stale for immediate updates after mutations
-      gcTime: 30000, // 30 seconds, keep in cache
-      refetchOnWindowFocus: true, // Refetch when user returns to the tab
-      refetchInterval: 10000, // automatically refetch every 10 seconds
-      refetchIntervalInBackground: false, // Only refetch when tab is active
+      staleTime: 0,
+      gcTime: 30000,
+      refetchOnWindowFocus: true,
+      refetchInterval: 10000,
+      refetchIntervalInBackground: false,
     }
   );
 

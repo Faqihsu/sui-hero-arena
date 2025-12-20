@@ -33,7 +33,6 @@ export const useTrainHero = (options?: UseTrainHeroOptions) => {
       return result;
     },
     onSuccess: async () => {
-      // Show success toast
       options?.showToast?.('Hero trained successfully! Level increased.', 'success');
 
       // Immediately invalidate and refetch for real-time updates
@@ -55,7 +54,7 @@ export const useTrainHero = (options?: UseTrainHeroOptions) => {
         }
       });
 
-      // Backup refetch after short delay in case transaction isn't indexed yet
+      // Backup refetch
       setTimeout(async () => {
         await queryClient.refetchQueries({ 
           predicate: (query) => {

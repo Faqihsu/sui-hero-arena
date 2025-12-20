@@ -34,7 +34,6 @@ export const useTransferHero = (options?: UseTransferHeroOptions) => {
       return result;
     },
     onSuccess: async () => {
-      // Show success toast
       options?.showToast?.('Hero transferred successfully!', 'success');
 
       // Immediately invalidate and refetch for real-time updates
@@ -56,7 +55,7 @@ export const useTransferHero = (options?: UseTransferHeroOptions) => {
         }
       });
 
-      // Backup refetch after short delay in case transaction isn't indexed yet
+      // Backup refetch
       setTimeout(async () => {
         await queryClient.refetchQueries({ 
           predicate: (query) => {
