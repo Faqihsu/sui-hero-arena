@@ -290,31 +290,30 @@ const App: React.FC = () => {
         <div className="flex items-center gap-8">
           {/* LOGO + TEKS */}
           <div className="app-logo flex items-center gap-3">
-            <div className="relative w-14 h-14 bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white shadow-2xl shadow-cyan-500/50 hover:scale-110 transition-transform hover:shadow-pink-500/50">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-500 via-orange-400 to-yellow-300 rounded-lg opacity-50 blur-md animate-pulse"></div>
+            <div className="relative w-16 h-16 bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-cyan-500/50 hover:scale-110 transition-transform hover:shadow-pink-500/50 group">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-purple-400 to-pink-400 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg transition-opacity"></div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
+                width="36"
+                height="36"
                 viewBox="0 0 24 24"
-                fill="currentColor"
+                fill="none"
                 stroke="currentColor"
-                strokeWidth="1.5"
+                strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="relative z-10 drop-shadow-lg"
               >
-                <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
-                <line x1="13" y1="19" x2="19" y2="13" />
-                <line x1="16" y1="16" x2="20" y2="20" />
-                <line x1="19" y1="21" x2="21" y2="19" />
+                {/* Sword icon */}
+                <path d="M6 2l12 12-8 8-12-12 8-8z" />
+                <path d="M18 6l4-4" />
+                <circle cx="2" cy="18" r="1" fill="currentColor" />
               </svg>
             </div>
             <div className="relative">
               <span className="text-4xl font-black tracking-wider bg-gradient-to-r from-cyan-400 via-pink-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
-                FORGE BATTLES
+                FORGE BATTLE
               </span>
-              <span className="text-xs font-bold text-cyan-400 tracking-[0.2em]">⚡ SUI</span>
             </div>
           </div>
 
