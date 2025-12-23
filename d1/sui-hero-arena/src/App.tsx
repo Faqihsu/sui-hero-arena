@@ -289,31 +289,46 @@ const App: React.FC = () => {
       <nav className="fixed top-0 left-0 right-0 h-16 backdrop-blur-2xl bg-black/30 border-b border-cyan-500/30 z-50 px-6 flex items-center justify-between">
         <div className="flex items-center gap-8">
           {/* LOGO + TEKS */}
-          <div className="app-logo flex items-center gap-3">
-            <div className="relative w-16 h-16 bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-cyan-500/50 hover:scale-110 transition-transform hover:shadow-pink-500/50 group">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 via-purple-400 to-pink-400 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg transition-opacity"></div>
+          <div className="app-logo flex items-center gap-4 group">
+            {/* ANIMATED LOGO */}
+            <div className="relative w-20 h-20 bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500 rounded-3xl flex items-center justify-center text-white shadow-2xl transition-all duration-300 hover:scale-125 group-hover:shadow-cyan-500/80 animate-pulse">
+              {/* Outer glow rings */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/30 to-pink-400/30 blur-xl animate-spin" style={{animationDuration: '4s'}}></div>
+              <div className="absolute inset-1 rounded-3xl border-2 border-cyan-300/50 opacity-0 group-hover:opacity-100 transition-opacity" style={{boxShadow: '0 0 20px rgba(6, 182, 212, 0.5)'}}></div>
+              
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="36"
-                height="36"
+                width="44"
+                height="44"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="relative z-10 drop-shadow-lg"
+                className="relative z-10 drop-shadow-[0_0_10px_rgba(6,182,212,0.8)] transition-transform group-hover:rotate-12"
               >
                 {/* Sword icon */}
                 <path d="M6 2l12 12-8 8-12-12 8-8z" />
                 <path d="M18 6l4-4" />
-                <circle cx="2" cy="18" r="1" fill="currentColor" />
+                <circle cx="2" cy="18" r="1.5" fill="currentColor" />
               </svg>
             </div>
-            <div className="relative">
-              <span className="text-5xl font-black tracking-tighter bg-gradient-to-r from-cyan-300 via-pink-300 to-purple-300 bg-clip-text text-transparent drop-shadow-2xl">
+
+            {/* TITLE WITH EFFECTS */}
+            <div className="relative flex flex-col">
+              {/* Glowing background text */}
+              <span className="absolute text-6xl font-black tracking-tighter opacity-20 blur-xl bg-gradient-to-r from-cyan-500 via-pink-500 to-purple-500 bg-clip-text text-transparent pointer-events-none animate-pulse">
                 FORGE<br/>BATTLE
               </span>
+              
+              {/* Main title with gradient */}
+              <span className="text-6xl font-black tracking-tighter bg-gradient-to-r from-cyan-300 via-pink-300 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(6,182,212,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,0.7)] transition-all">
+                FORGE<br/>BATTLE
+              </span>
+
+              {/* Subtitle */}
+              <span className="text-xs font-bold text-cyan-400/80 tracking-widest uppercase mt-1 ml-1 animate-pulse">⚔️ Epic Arena</span>
             </div>
           </div>
 
