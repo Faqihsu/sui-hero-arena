@@ -316,19 +316,19 @@ const App: React.FC = () => {
             </div>
 
             {/* TITLE WITH EFFECTS */}
-            <div className="relative flex flex-col">
+            <div className="relative">
               {/* Glowing background text */}
-              <span className="absolute text-6xl font-black tracking-tighter opacity-20 blur-xl bg-gradient-to-r from-cyan-500 via-pink-500 to-purple-500 bg-clip-text text-transparent pointer-events-none animate-pulse">
-                FORGE<br/>BATTLE
+              <span className="absolute text-7xl font-black tracking-tighter opacity-20 blur-xl bg-gradient-to-r from-cyan-500 via-pink-500 to-purple-500 bg-clip-text text-transparent pointer-events-none animate-pulse whitespace-nowrap">
+                FORGE BATTLE
               </span>
               
               {/* Main title with gradient */}
-              <span className="text-6xl font-black tracking-tighter bg-gradient-to-r from-cyan-300 via-pink-300 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(6,182,212,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,0.7)] transition-all">
-                FORGE<br/>BATTLE
+              <span className="text-7xl font-black tracking-tighter bg-gradient-to-r from-cyan-300 via-pink-300 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(6,182,212,0.6)] group-hover:drop-shadow-[0_0_30px_rgba(236,72,153,0.7)] transition-all whitespace-nowrap">
+                FORGE BATTLE
               </span>
 
               {/* Subtitle */}
-              <span className="text-xs font-bold text-cyan-400/80 tracking-widest uppercase mt-1 ml-1 animate-pulse">⚔️ Epic Arena</span>
+              <span className="text-xs font-bold text-cyan-400/80 tracking-widest uppercase mt-2 block animate-pulse">⚔️ Epic Arena</span>
             </div>
           </div>
 
