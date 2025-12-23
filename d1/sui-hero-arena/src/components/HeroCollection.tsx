@@ -43,19 +43,39 @@ export const HeroCollection: React.FC<HeroCollectionProps> = ({
           <p className="text-cyan-300/50 text-sm font-medium">No units found in your primary wallet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-          {heroes.map(hero => (
-            <HeroCard 
-              key={hero.id} 
-              hero={hero} 
-              onTrain={onTrain}
-              onTransfer={onTransfer}
-              isTraining={isTraining && trainingId === hero.id}
-              justLeveledUp={leveledUpId === hero.id}
-            />
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
+          {heroes.map((hero, index) => (
+            <div key={hero.id} style={{animation: `slideInUp 0.5s ease-out ${index * 0.05}s forwards`, animationFillMode: 'both'}}>
+              <HeroCard 
+                hero={hero} 
+                onTrain={onTrain}
+                onTransfer={onTransfer}
+                isTraining={isTraining && trainingId === hero.id}
+                justLeveledUp={leveledUpId === hero.id}
+              />
+            </div>
           ))}
         </div>
       )}
+
+      <style>{`
+        @keyframes slideInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @media (max-width: 480px) {
+          .grid {
+            gap: 0.75rem !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
