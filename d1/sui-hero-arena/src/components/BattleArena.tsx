@@ -399,7 +399,12 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black via-transparent to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
                   <h3 className="font-bold text-2xl">{hero1.name}</h3>
-                  <p className="text-sm text-gray-300">Lv. {hero1.level}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <p className="text-sm text-gray-300">Lv. {hero1.level}</p>
+                    <span className="text-xs px-2 py-0.5 bg-yellow-500/20 border border-yellow-400 text-yellow-300 rounded-full font-bold">
+                      ⭐ RARE
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -433,7 +438,12 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black via-transparent to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
                   <h3 className="font-bold text-2xl">{hero2.name}</h3>
-                  <p className="text-sm text-gray-300">Lv. {hero2.level}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <p className="text-sm text-gray-300">Lv. {hero2.level}</p>
+                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 border border-purple-400 text-purple-300 rounded-full font-bold">
+                      ✨ EPIC
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

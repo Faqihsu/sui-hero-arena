@@ -1,5 +1,5 @@
 import React from 'react';
-import { Hero } from '@/types';
+import { Hero, HeroRarity } from '@/types';
 import { Icons, XP_PER_LEVEL } from '@/constants';
 
 interface HeroCardProps {
@@ -10,6 +10,39 @@ interface HeroCardProps {
   justLeveledUp?: boolean;
 }
 
+const getHeroRarity = (level: number): HeroRarity => {
+  if (level >= 50) return HeroRarity.LEGENDARY;
+  if (level >= 30) return HeroRarity.EPIC;
+  if (level >= 15) return HeroRarity.RARE;
+  return HeroRarity.COMMON;
+};
+
+const getRarityColor = (rarity: HeroRarity) => {
+  switch (rarity) {
+    case HeroRarity.LEGENDARY:
+      return 'from-yellow-400 to-orange-500 text-yellow-900';
+    case HeroRarity.EPIC:
+      return 'from-purple-400 to-pink-500 text-purple-900';
+    case HeroRarity.RARE:
+      return 'from-blue-400 to-cyan-500 text-blue-900';
+    case HeroRarity.COMMON:
+      return 'from-slate-400 to-slate-500 text-slate-900';
+  }
+};
+
+const getRarityEmoji = (rarity: HeroRarity) => {
+  switch (rarity) {
+    case HeroRarity.LEGENDARY:
+      return '👑';
+    case HeroRarity.EPIC:
+      return '✨';
+    case HeroRarity.RARE:
+      return '⭐';
+    case HeroRarity.COMMON:
+      return '🎖️';
+  }
+};
+
 export const HeroCard: React.FC<HeroCardProps> = ({ 
   hero, 
   onTrain, 
@@ -19,6 +52,9 @@ export const HeroCard: React.FC<HeroCardProps> = ({
 }) => {
   const xpProgress = (hero.stats.xp % XP_PER_LEVEL);
   const xpPercent = (xpProgress / XP_PER_LEVEL) * 100;
+  const rarity = getHeroRarity(hero.stats.level);
+  const rarityColor = getRarityColor(rarity);
+  const rarityEmoji = getRarityEmoji(rarity);
 
   return (
     <div className={`group flex flex-col bg-slate-900/40 rounded-2xl overflow-hidden border transition-all duration-300 ${
@@ -41,9 +77,15 @@ export const HeroCard: React.FC<HeroCardProps> = ({
         </div>
 
         <div className="absolute top-3 right-3">
-            <div className="flex flex-col items-center justify-center">
-              <span className="text-[10px] uppercase font-semibold text-indigo-300 tracking-wide">Level</span>
-              <span className="text-2xl font-extrabold text-white drop-shadow-glow">{hero.stats.level}</span>
+            <div className="flex flex-col gap-2 items-center justify-center">
+              <div className={`px-2 py-1 bg-gradient-to-r ${rarityColor} rounded-md text-[9px] font-bold uppercase tracking-widest flex items-center gap-1`}>
+                <span>{rarityEmoji}</span>
+                <span>{rarity}</span>
+              </div>
+              <div className="flex flex-col items-center justify-center">
+                <span className="text-[10px] uppercase font-semibold text-indigo-300 tracking-wide">Level</span>
+                <span className="text-2xl font-extrabold text-white drop-shadow-glow">{hero.stats.level}</span>
+              </div>
             </div>
         </div>
 
