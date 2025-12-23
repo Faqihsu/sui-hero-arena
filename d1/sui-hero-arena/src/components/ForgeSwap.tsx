@@ -24,8 +24,9 @@ export const ForgeSwap: React.FC<ForgeSwapProps> = ({ onSwapSuccess, onSwapError
   const [outputAmount, setOutputAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [poolState, setPoolState] = useState<PoolState>({
-    suiBalance: '0',
-    forgeBalance: '0',
+    // Mock data: 10 SUI = 1,000,000 FORGE (rate: 1 SUI = 100,000 FORGE)
+    suiBalance: (10 * 1e9).toString(), // 10 SUI in motes
+    forgeBalance: (1000000 * 1e3).toString(), // 1,000,000 FORGE in base units
     totalSupply: '0',
   });
 
@@ -47,13 +48,14 @@ export const ForgeSwap: React.FC<ForgeSwapProps> = ({ onSwapSuccess, onSwapError
         if (poolObject.data?.content && 'fields' in poolObject.data.content) {
           const fields = poolObject.data.content.fields as any;
           setPoolState({
-            suiBalance: fields.sui_balance?.toString() || '0',
-            forgeBalance: fields.forge_balance?.toString() || '0',
+            suiBalance: fields.sui_balance?.toString() || (10 * 1e9).toString(),
+            forgeBalance: fields.forge_balance?.toString() || (1000000 * 1e3).toString(),
             totalSupply: fields.total_supply?.toString() || '0',
           });
         }
       } catch (error) {
         console.error('Failed to fetch pool state:', error);
+        // Keep mock data on error
       }
     };
 
@@ -68,23 +70,24 @@ export const ForgeSwap: React.FC<ForgeSwapProps> = ({ onSwapSuccess, onSwapError
     if (!inputVal || parseFloat(inputVal) === 0) return '0';
 
     const input = parseFloat(inputVal);
-    const suiBal = parseFloat(poolState.suiBalance) || 1;
-    const forgeBal = parseFloat(poolState.forgeBalance) || 1;
+    const suiBal = parseFloat(poolState.suiBalance); // in motes
+    const forgeBal = parseFloat(poolState.forgeBalance); // in base units
 
     // Constant product formula: (x + inputAmount) * (y - outputAmount) = x * y
     // Solving for outputAmount: outputAmount = y - (x * y) / (x + inputAmount)
     
     if (direction === 'sui-to-forge') {
-      // Input is SUI, output is FORGE
-      // inputAmount in motes (1 SUI = 1e9 motes)
-      const inputMotes = input * 1e9;
-      const outputForge = forgeBal - (suiBal * forgeBal) / (suiBal + inputMotes / 1e9);
-      return Math.max(0, outputForge).toFixed(2);
+      // Input is SUI (displayed value), output is FORGE
+      const inputMotes = input * 1e9; // Convert SUI to motes
+      const outputBase = forgeBal - (suiBal * forgeBal) / (suiBal + inputMotes);
+      const outputForge = outputBase / 1e3; // Convert from base units to FORGE display value
+      return Math.max(0, outputForge).toFixed(0);
     } else {
-      // Input is FORGE, output is SUI
-      // forgeBal in base units
-      const outputSui = suiBal - (suiBal * forgeBal) / (forgeBal + input);
-      return Math.max(0, outputSui / 1e9).toFixed(6);
+      // Input is FORGE (displayed value), output is SUI
+      const inputBase = input * 1e3; // Convert FORGE to base units
+      const outputMotes = suiBal - (suiBal * forgeBal) / (forgeBal + inputBase);
+      const outputSui = outputMotes / 1e9; // Convert motes to SUI display value
+      return Math.max(0, outputSui).toFixed(6);
     }
   };
 
@@ -139,10 +142,10 @@ export const ForgeSwap: React.FC<ForgeSwapProps> = ({ onSwapSuccess, onSwapError
   };
 
   const getRate = (): string => {
-    const suiBal = parseFloat(poolState.suiBalance) || 1;
-    const forgeBal = parseFloat(poolState.forgeBalance) || 1;
+    const suiBal = parseFloat(poolState.suiBalance) / 1e9 || 1; // Convert from motes
+    const forgeBal = parseFloat(poolState.forgeBalance) / 1e3 || 1; // Convert from base units
     const rate = forgeBal / suiBal;
-    return rate.toFixed(2);
+    return rate.toFixed(0); // Show as whole number (100000 not 100000.00)
   };
 
   return (
