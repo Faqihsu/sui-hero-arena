@@ -5,3 +5,4 @@ export { useTrainHero } from './useTrainHero';
 export { useTransferHero } from './useTransferHero';
 export { useToast } from './useToast';
 export { useDeleteHero } from './useDeleteHero';
+export { useDailyBonus } from './useDailyBonus';

@@ -14,7 +14,8 @@ import {
   DeleteConfirmModal,
   Training,
   Leaderboard,
-  PlayerStatsDisplay
+  PlayerStatsDisplay,
+  DailyBonusCard
 } from '@/components';
 import { BattleFight, HeroOnChain } from "@/components/BattleFight";
 import { useHeroes, useTransfer, useMintHero, useTrainHero, useTransferHero, useToast, useDeleteHero } from '@/hooks';
@@ -365,7 +366,14 @@ const App: React.FC = () => {
 
         {activeTab === 'battle' && <BattleArena heroes={heroesOnChain} onBattleEnd={handleBattleEnd} />}
 
-        {activeTab === 'stats' && <PlayerStatsDisplay {...playerStats} />}
+        {activeTab === 'stats' && (
+          <div className="space-y-8">
+            <PlayerStatsDisplay {...playerStats} />
+            <div className="flex justify-center">
+              <DailyBonusCard />
+            </div>
+          </div>
+        )}
 
         {activeTab === 'leaderboard' && <Leaderboard currentPlayerStats={playerStats} />}
       </main>
