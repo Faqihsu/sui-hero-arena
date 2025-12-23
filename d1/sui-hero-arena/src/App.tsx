@@ -318,17 +318,17 @@ const App: React.FC = () => {
             {/* TITLE WITH EFFECTS */}
             <div className="relative">
               {/* Glowing background text */}
-              <span className="absolute text-4xl font-black tracking-tight opacity-30 blur-lg text-cyan-400/40 pointer-events-none animate-pulse whitespace-nowrap" style={{textShadow: '0 0 8px rgba(6,182,212,0.3)'}}>
+              <span className="absolute text-4xl font-black tracking-tight opacity-40 blur-lg text-cyan-300 pointer-events-none animate-pulse whitespace-nowrap" style={{textShadow: '0 0 12px rgba(6,182,212,0.5)'}}>
                 FORGE BATTLE
               </span>
               
-              {/* Main title - bright cyan with strong glow */}
-              <span className="text-4xl font-black tracking-tight text-cyan-100 whitespace-nowrap transition-all" style={{textShadow: '0 0 20px rgba(6,182,212,1), 0 0 40px rgba(6,182,212,0.8), 0 0 60px rgba(6,182,212,0.5)'}}>
+              {/* Main title - pure white with cyan glow */}
+              <span className="text-4xl font-black tracking-tight text-white whitespace-nowrap transition-all" style={{textShadow: '0 0 15px rgba(6,182,212,1), 0 0 30px rgba(6,182,212,0.9), 0 0 45px rgba(6,182,212,0.6)'}}>
                 FORGE BATTLE
               </span>
 
               {/* Subtitle */}
-              <span className="text-xs font-bold text-cyan-200 tracking-widest uppercase mt-1 block animate-pulse">⚔️ Epic Arena</span>
+              <span className="text-xs font-bold text-white tracking-widest uppercase mt-1 block animate-pulse" style={{textShadow: '0 0 10px rgba(6,182,212,0.8)'}}>⚔️ Epic Arena</span>
             </div>
           </div>
 
