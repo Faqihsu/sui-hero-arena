@@ -17,3 +17,4 @@ export { TrainingConfirmModal } from './TrainingConfirmModal';
 export { Leaderboard } from './Leaderboard';
 export { PlayerStatsDisplay } from './PlayerStatsDisplay';
 export { DailyBonusCard } from './DailyBonusCard';
+export { MarketplacePreview } from './MarketplacePreview';

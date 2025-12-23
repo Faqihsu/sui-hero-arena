@@ -15,7 +15,8 @@ import {
   Training,
   Leaderboard,
   PlayerStatsDisplay,
-  DailyBonusCard
+  DailyBonusCard,
+  MarketplacePreview
 } from '@/components';
 import { BattleFight, HeroOnChain } from "@/components/BattleFight";
 import { useHeroes, useTransfer, useMintHero, useTrainHero, useTransferHero, useToast, useDeleteHero } from '@/hooks';
@@ -32,7 +33,7 @@ interface MintFormData {
 }
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'collection' | 'forge' | 'logs' | 'battle' | 'training' | 'stats' | 'leaderboard'>('collection');
+  const [activeTab, setActiveTab] = useState<'collection' | 'forge' | 'logs' | 'battle' | 'training' | 'stats' | 'leaderboard' | 'marketplace'>('collection');
   const [trainingHeroId, setTrainingHeroId] = useState<string | null>(null);
   const [trainingConfirmOpen, setTrainingConfirmOpen] = useState(false);
   const [pendingTrainHeroId, setPendingTrainHeroId] = useState<string | null>(null);
@@ -366,6 +367,8 @@ const App: React.FC = () => {
         )}
 
         {activeTab === 'leaderboard' && <Leaderboard currentPlayerStats={playerStats} />}
+
+        {activeTab === 'marketplace' && <MarketplacePreview activeListings={12} recentTrades={234} totalVolume={5820} />}
       </main>
 
       {showTransferModal && transferHero && (

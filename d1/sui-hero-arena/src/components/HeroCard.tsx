@@ -97,6 +97,20 @@ export const HeroCard: React.FC<HeroCardProps> = ({
       {/* Structured Content Area */}
       <div className="p-3 flex flex-col flex-1 space-y-2">
 
+        {/* Experience Bar with Visual Progress */}
+        <div className="space-y-1">
+          <div className="flex items-center justify-between">
+            <span className="text-[7px] font-bold text-cyan-400 uppercase tracking-widest">XP Progress</span>
+            <span className="text-[7px] font-bold text-cyan-300">{Math.round(xpPercent)}%</span>
+          </div>
+          <div className="w-full h-2 bg-slate-900/50 rounded-full overflow-hidden border border-cyan-500/30">
+            <div 
+              className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-500 ease-out" 
+              style={{width: `${xpPercent}%`, boxShadow: '0 0 10px rgba(6,182,212,0.6)'}}
+            />
+          </div>
+        </div>
+
         {/* Professional Stats Display */}
         <div className="grid grid-cols-2 gap-px bg-gradient-to-r from-cyan-900/30 to-purple-900/30 rounded-md overflow-hidden border border-cyan-500/30">
           <div className="bg-cyan-950/40 p-2 flex flex-col items-center gap-0.5">

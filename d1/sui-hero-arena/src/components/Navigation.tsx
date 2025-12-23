@@ -2,8 +2,8 @@ import React from 'react';
 import { Icons } from '@/constants';
 
 interface NavigationProps {
-  activeTab: 'collection' | 'forge' | 'logs' | 'battle' | 'training' | 'stats' | 'leaderboard';
-  onTabChange: (tab: 'collection' | 'forge' | 'logs' | 'battle' | 'training' | 'stats' | 'leaderboard') => void;
+  activeTab: 'collection' | 'forge' | 'logs' | 'battle' | 'training' | 'stats' | 'leaderboard' | 'marketplace';
+  onTabChange: (tab: 'collection' | 'forge' | 'logs' | 'battle' | 'training' | 'stats' | 'leaderboard' | 'marketplace') => void;
 }
 
 export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
@@ -14,6 +14,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
     { id: 'battle', label: 'BATTLE', icon: <Icons.Zap /> },
     { id: 'stats', label: 'STATS', icon: <Icons.History /> },
     { id: 'leaderboard', label: 'RANKING', icon: <Icons.History /> },
+    { id: 'marketplace', label: 'MARKET', icon: <Icons.History /> },
     { id: 'logs', label: 'HISTORY', icon: <Icons.History /> }
   ];
 

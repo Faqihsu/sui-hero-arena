@@ -82,21 +82,45 @@ export const PlayerStatsDisplay: React.FC<PlayerStats> = (stats) => {
           </div>
         </div>
 
-        {/* Winning Streak */}
-        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-6 rounded-xl border border-slate-700/50">
-          <h3 className="text-lg font-bold text-white mb-4">Current Streak</h3>
+        {/* Winning Streak with Enhanced Animation */}
+        <div className={`bg-gradient-to-br p-6 rounded-xl border backdrop-blur-sm transition-all ${
+          stats.winStreak >= 10 ? 'from-red-900/40 to-orange-900/30 border-red-500/50 shadow-lg shadow-red-500/20' :
+          stats.winStreak >= 5 ? 'from-orange-900/40 to-yellow-900/30 border-orange-500/50' :
+          stats.winStreak > 0 ? 'from-yellow-900/40 to-amber-900/30 border-yellow-500/50' :
+          'from-slate-800/60 to-slate-900/60 border-slate-700/50'
+        }`}>
+          <h3 className="text-lg font-bold text-white mb-4">🔥 Win Streak 🔥</h3>
           <div className="flex items-center gap-4">
             <div>
-              <div className={`text-5xl font-black ${getStreakColor()}`}>{stats.winStreak}</div>
-              <div className="text-sm text-slate-400 font-semibold">consecutive wins</div>
+              <div className={`text-6xl font-black transition-all ${getStreakColor()} ${stats.winStreak >= 5 ? 'animate-pulse' : ''}`}>
+                {stats.winStreak}
+              </div>
+              <div className="text-sm text-slate-300 font-semibold">consecutive wins</div>
             </div>
             <div className="flex-1 text-right">
-              {stats.winStreak >= 10 && <div className="text-4xl">🔥</div>}
-              {stats.winStreak >= 5 && stats.winStreak < 10 && <div className="text-3xl">⚡</div>}
-              {stats.winStreak > 0 && stats.winStreak < 5 && <div className="text-2xl">✨</div>}
-              {stats.winStreak === 0 && <div className="text-2xl">💪</div>}
+              <div className="space-y-2">
+                {stats.winStreak >= 10 && <div className="text-5xl animate-bounce">🔥</div>}
+                {stats.winStreak >= 5 && stats.winStreak < 10 && <div className="text-4xl animate-pulse">⚡</div>}
+                {stats.winStreak > 0 && stats.winStreak < 5 && <div className="text-3xl">✨</div>}
+                {stats.winStreak === 0 && <div className="text-3xl opacity-50">💪</div>}
+                {stats.winStreak >= 3 && (
+                  <div className="text-xs text-white/60 font-bold mt-2">
+                    {stats.winStreak >= 10 ? 'LEGENDARY!' : stats.winStreak >= 5 ? 'UNSTOPPABLE!' : 'AWESOME!'}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+          {stats.winStreak >= 5 && (
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <div className="w-full bg-slate-900/50 rounded-full h-2 overflow-hidden">
+                <div 
+                  className="bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 h-full"
+                  style={{width: `${Math.min((stats.winStreak / 15) * 100, 100)}%`}}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Hero Collection */}
