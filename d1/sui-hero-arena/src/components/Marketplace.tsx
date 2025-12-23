@@ -3,6 +3,7 @@ import { useCurrentAccount } from '@mysten/dapp-kit';
 import { useHeroes } from '@/hooks/useHeroes';
 import { useMarketplaceListing, useMarketplacePurchase, useMarketplaceListings } from '@/hooks';
 import { HeroCard } from './HeroCard';
+import { ForgeSwap } from './ForgeSwap';
 
 interface MarketplaceListingUI {
   heroId: string;
@@ -15,7 +16,7 @@ interface MarketplaceListingUI {
   createdAt: number;
 }
 
-type MarketplaceTab = 'browse' | 'my-listings' | 'sell';
+type MarketplaceTab = 'browse' | 'my-listings' | 'sell' | 'swap';
 
 export const Marketplace: React.FC = () => {
   const account = useCurrentAccount();
@@ -217,6 +218,16 @@ export const Marketplace: React.FC = () => {
         >
           💰 Sell Hero
         </button>
+        <button
+          onClick={() => setActiveTab('swap')}
+          className={`px-6 py-3 font-bold transition-all ${
+            activeTab === 'swap'
+              ? 'text-cyan-400 border-b-2 border-cyan-400'
+              : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          💱 Swap (SUI ↔ FORGE)
+        </button>
       </div>
 
       {/* Content */}
@@ -391,6 +402,20 @@ export const Marketplace: React.FC = () => {
                 </button>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Swap Tab */}
+        {activeTab === 'swap' && (
+          <div className="flex justify-center py-8">
+            <ForgeSwap 
+              onSwapSuccess={(txHash, amount) => {
+                console.log(`Swap successful! Got ${amount} tokens. Tx: ${txHash}`);
+              }}
+              onSwapError={(error) => {
+                console.error(`Swap failed: ${error}`);
+              }}
+            />
           </div>
         )}
       </div>
