@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useCurrentAccount } from '@mysten/dapp-kit';
+import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
 import { SuiClient } from '@mysten/sui/client';
+import { Transaction } from '@mysten/sui/transactions';
 import { CONTRACT_CONFIG } from '@/config/contract';
 import { Button } from './Button';
 
@@ -19,6 +20,7 @@ type SwapDirection = 'sui-to-forge' | 'forge-to-sui';
 
 export const ForgeSwap: React.FC<ForgeSwapProps> = ({ onSwapSuccess, onSwapError }) => {
   const currentAccount = useCurrentAccount();
+  const { mutate: signAndExecute } = useSignAndExecuteTransaction();
   const [swapDirection, setSwapDirection] = useState<SwapDirection>('sui-to-forge');
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
@@ -112,31 +114,54 @@ export const ForgeSwap: React.FC<ForgeSwapProps> = ({ onSwapSuccess, onSwapError
 
     setIsLoading(true);
     try {
-      // This would normally call the Move contract via your wallet provider
-      // For now, we're showing the UI structure
-      // You'd implement actual transaction signing here
+      const tx = new Transaction();
+      const inputValue = parseFloat(inputAmount);
 
-      const response = await fetch('/api/swap', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userAddress: currentAccount.address,
-          direction: swapDirection,
-          inputAmount: inputAmount,
-          poolId: CONTRACT_CONFIG.FORGE_SWAP_POOL_ID,
-        }),
-      });
+      if (swapDirection === 'sui-to-forge') {
+        // Swap SUI for FORGE
+        const suiAmount = Math.floor(inputValue * 1e9); // Convert to motes
+        
+        // Get SUI coin for payment
+        tx.splitCoins(tx.gas, [suiAmount]);
+        const [suiCoin] = tx.splitCoins(tx.gas, [suiAmount]);
 
-      if (!response.ok) throw new Error('Swap failed');
+        // Call swap_sui_for_forge
+        tx.moveCall({
+          target: `${CONTRACT_CONFIG.MARKETPLACE_PACKAGE_ID}::forge_swap::swap_sui_for_forge`,
+          arguments: [
+            tx.object(CONTRACT_CONFIG.FORGE_SWAP_POOL_ID), // pool
+            suiCoin, // sui_coin
+          ],
+        });
+      } else {
+        // Swap FORGE for SUI - requires user to provide FORGE coins
+        // This is more complex and requires getting user's FORGE balance first
+        onSwapError?.('FORGE to SUI swap coming soon - requires coin selection UI');
+        setIsLoading(false);
+        return;
+      }
 
-      const { transactionHash } = await response.json();
-      onSwapSuccess?.(transactionHash, outputAmount);
-      setInputAmount('');
-      setOutputAmount('');
+      // Execute transaction
+      signAndExecute(
+        { transaction: tx },
+        {
+          onSuccess: (result) => {
+            console.log('Swap successful:', result);
+            onSwapSuccess?.(result.digest, outputAmount);
+            setInputAmount('');
+            setOutputAmount('');
+            setIsLoading(false);
+          },
+          onError: (error) => {
+            console.error('Swap failed:', error);
+            onSwapError?.(error instanceof Error ? error.message : 'Swap transaction failed');
+            setIsLoading(false);
+          },
+        }
+      );
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       onSwapError?.(errorMessage);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -265,13 +290,18 @@ export const ForgeSwap: React.FC<ForgeSwapProps> = ({ onSwapSuccess, onSwapError
               <p className="text-red-300 font-bold">Please connect your wallet to swap</p>
             </div>
           ) : (
-            <Button
-              onClick={handleSwap}
-              disabled={isLoading || !inputAmount || parseFloat(inputAmount) === 0}
-              className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all"
-            >
-              {isLoading ? 'Swapping...' : 'Swap Now'}
-            </Button>
+            <div className="space-y-3">
+              <Button
+                onClick={handleSwap}
+                disabled={isLoading || !inputAmount || parseFloat(inputAmount) === 0 || swapDirection === 'forge-to-sui'}
+                className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-all"
+              >
+                {isLoading ? '⏳ Processing...' : swapDirection === 'forge-to-sui' ? '🔄 Coming Soon' : '💱 Swap Now'}
+              </Button>
+              {swapDirection === 'forge-to-sui' && (
+                <p className="text-xs text-yellow-400 text-center">FORGE → SUI swap coming soon</p>
+              )}
+            </div>
           )}
         </div>
 
