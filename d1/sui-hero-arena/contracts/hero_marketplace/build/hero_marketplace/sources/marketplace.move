@@ -1,10 +1,7 @@
 // Marketplace Module - Handle hero listing, buying, and selling
 module hero_marketplace::marketplace {
-    use sui::object::UID;
     use sui::balance::Balance;
     use sui::coin::{Coin};
-    use sui::transfer;
-    use sui::tx_context::{TxContext};
     use sui::table::{Self, Table};
     use sui::event;
     use std::string::String;
@@ -21,7 +18,7 @@ module hero_marketplace::marketplace {
     // ===== Objects =====
     /// Represents a hero listing on the marketplace
     public struct HeroListing has key, store {
-        id: UID,
+        id: sui::object::UID,
         hero_id: String,
         hero_name: String,
         seller: address,
@@ -34,7 +31,7 @@ module hero_marketplace::marketplace {
 
     /// Marketplace admin object
     public struct MarketplaceAdmin has key {
-        id: UID,
+        id: sui::object::UID,
         listings: Table<String, HeroListing>,
         escrow: Table<String, Balance<FORGE_TOKEN>>,
         total_volume: u64,

@@ -33,9 +33,9 @@ export const useMarketplaceListings = () => {
 
   // Parse listings from contract state
   useEffect(() => {
-    if (objectData?.data?.content?.fields) {
+    if (objectData?.data?.content && 'fields' in objectData.data.content) {
       // Extract listings from the Table object
-      const fields = objectData.data.content.fields as any;
+      const fields = (objectData.data.content as any).fields as any;
       // Note: Table structure depends on contract implementation
       // This is a placeholder - adjust based on your actual contract state
       setListings([]);
@@ -56,12 +56,12 @@ export const useMarketplaceListings = () => {
 
 // Hook to get single listing details
 export const useListingDetails = (heroId: string) => {
-  const { listings, isLoading, refetch } = useMarketplaceListings();
+  const { listings, isLoading, refetchListings } = useMarketplaceListings();
   const listing = listings.find(l => l.heroId === heroId);
 
   return {
     listing,
     isLoading,
-    refetch,
+    refetch: refetchListings,
   };
 };

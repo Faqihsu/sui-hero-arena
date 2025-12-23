@@ -1,14 +1,12 @@
 // FORGE Token Module - Custom token for the Sui Hero Arena marketplace
 module hero_marketplace::forge_token {
     use sui::coin;
-    use sui::transfer;
-    use sui::tx_context::{TxContext};
 
     /// The type identifier for FORGE token
     public struct FORGE_TOKEN has drop {}
 
     /// One-time witness function to initialize the FORGE token
-    fun init(witness: FORGE_TOKEN, ctx: &mut TxContext) {
+    fun init(witness: FORGE_TOKEN, ctx: &mut sui::tx_context::TxContext) {
         let (treasury, metadata) = coin::create_currency<FORGE_TOKEN>(
             witness,
             8,  // decimals
@@ -19,15 +17,15 @@ module hero_marketplace::forge_token {
             ctx
         );
 
-        transfer::public_freeze_object(metadata);
-        transfer::public_transfer(treasury, tx_context::sender(ctx));
+        sui::transfer::public_freeze_object(metadata);
+        sui::transfer::public_transfer(treasury, sui::tx_context::sender(ctx));
     }
 
     /// Mint FORGE tokens (only callable by treasury owner)
     public fun mint(
         treasury: &mut coin::TreasuryCap<FORGE_TOKEN>,
         amount: u64,
-        ctx: &mut TxContext
+        ctx: &mut sui::tx_context::TxContext
     ): coin::Coin<FORGE_TOKEN> {
         coin::mint(treasury, amount, ctx)
     }
