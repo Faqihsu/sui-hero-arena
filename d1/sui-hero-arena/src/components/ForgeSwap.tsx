@@ -122,7 +122,6 @@ export const ForgeSwap: React.FC<ForgeSwapProps> = ({ onSwapSuccess, onSwapError
         const suiAmount = Math.floor(inputValue * 1e9); // Convert to motes
         
         // Get SUI coin for payment
-        tx.splitCoins(tx.gas, [suiAmount]);
         const [suiCoin] = tx.splitCoins(tx.gas, [suiAmount]);
 
         // Call swap_sui_for_forge
