@@ -14,3 +14,5 @@ export { BattleResultModal } from './BattleResultModal';
 export { BattleLogModal } from './BattleLogModal';
 export { DeleteConfirmModal } from './DeleteConfirmModal';
 export { TrainingConfirmModal } from './TrainingConfirmModal';
+export { Leaderboard } from './Leaderboard';
+export { PlayerStatsDisplay } from './PlayerStatsDisplay';

@@ -10,6 +10,13 @@ export enum HeroClass {
   SORCERESS = 'Sorceress',
 }
 
+export enum HeroRarity {
+  COMMON = 'common',
+  RARE = 'rare',
+  EPIC = 'epic',
+  LEGENDARY = 'legendary',
+}
+
 // --------- Struktur asli dari backend / storage ---------
 export interface HeroStats {
   hp: number;
@@ -83,4 +90,14 @@ export interface BattleLog {
 export interface WalletState {
   address: string;
   balance: number;
+}
+
+export interface PlayerStats {
+  totalBattles: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  winStreak: number;
+  totalHeroes: number;
+  eloRating: number;
 }

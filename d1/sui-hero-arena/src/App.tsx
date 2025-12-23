@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useCurrentAccount } from '@mysten/dapp-kit';
-import { HeroClass, Hero, BattleLog } from '@/types';
+import { HeroClass, Hero, BattleLog, PlayerStats } from '@/types';
 import {
   MintForm,
   Navigation,
@@ -12,7 +12,9 @@ import {
   TrainingConfirmModal,
   BattleResultModal,
   DeleteConfirmModal,
-  Training
+  Training,
+  Leaderboard,
+  PlayerStatsDisplay
 } from '@/components';
 import { BattleFight, HeroOnChain } from "@/components/BattleFight";
 import { useHeroes, useTransfer, useMintHero, useTrainHero, useTransferHero, useToast, useDeleteHero } from '@/hooks';
@@ -29,7 +31,7 @@ interface MintFormData {
 }
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'collection' | 'forge' | 'logs' | 'battle' | 'training'>('collection');
+  const [activeTab, setActiveTab] = useState<'collection' | 'forge' | 'logs' | 'battle' | 'training' | 'stats' | 'leaderboard'>('collection');
   const [trainingHeroId, setTrainingHeroId] = useState<string | null>(null);
   const [trainingConfirmOpen, setTrainingConfirmOpen] = useState(false);
   const [pendingTrainHeroId, setPendingTrainHeroId] = useState<string | null>(null);
@@ -38,6 +40,15 @@ const App: React.FC = () => {
   const [pendingDeleteHeroId, setPendingDeleteHeroId] = useState<string | null>(null);
   const [battleLogs, setBattleLogs] = useState<BattleLog[]>([]);
   const [trainingEndTime, setTrainingEndTime] = useState<number | null>(null);
+  const [playerStats, setPlayerStats] = useState<PlayerStats>({
+    totalBattles: 0,
+    wins: 0,
+    losses: 0,
+    draws: 0,
+    winStreak: 0,
+    totalHeroes: 0,
+    eloRating: 1200,
+  });
   const currentAccount = useCurrentAccount();
   const { toasts, showSuccess, showError, removeToast } = useToast();
 
@@ -184,6 +195,29 @@ const App: React.FC = () => {
     };
 
     setBattleLogs([newBattleLog, ...battleLogs]);
+
+    // Update player stats
+    setPlayerStats(prev => {
+      let newStats = { ...prev };
+      newStats.totalBattles = prev.totalBattles + 1;
+      
+      if (winnerId === 'draw') {
+        newStats.draws = prev.draws + 1;
+        newStats.winStreak = 0;
+      } else if (winnerId === hero1Id) {
+        newStats.wins = prev.wins + 1;
+        newStats.winStreak = prev.winStreak + 1;
+        // ELO gain for winner (simplified calculation)
+        newStats.eloRating = Math.round(prev.eloRating + 16);
+      } else {
+        newStats.losses = prev.losses + 1;
+        newStats.winStreak = 0;
+        // ELO loss for loser
+        newStats.eloRating = Math.max(1000, Math.round(prev.eloRating - 16));
+      }
+      
+      return newStats;
+    });
   };
 
   const handleStartTraining = (heroId: string, durationMinutes: number) => {
@@ -330,6 +364,10 @@ const App: React.FC = () => {
         {activeTab === 'logs' && <TrainingLogs logs={logs} heroes={heroes} battleLogs={battleLogs} />}
 
         {activeTab === 'battle' && <BattleArena heroes={heroesOnChain} onBattleEnd={handleBattleEnd} />}
+
+        {activeTab === 'stats' && <PlayerStatsDisplay {...playerStats} />}
+
+        {activeTab === 'leaderboard' && <Leaderboard currentPlayerStats={playerStats} />}
       </main>
 
       {showTransferModal && transferHero && (
