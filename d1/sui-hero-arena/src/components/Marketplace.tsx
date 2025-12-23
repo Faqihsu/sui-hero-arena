@@ -4,6 +4,7 @@ import { useHeroes } from '@/hooks/useHeroes';
 import { useMarketplaceListing, useMarketplacePurchase, useMarketplaceListings } from '@/hooks';
 import { HeroCard } from './HeroCard';
 import { ForgeSwap } from './ForgeSwap';
+import { AddLiquidity } from './AddLiquidity';
 
 interface MarketplaceListingUI {
   heroId: string;
@@ -16,7 +17,7 @@ interface MarketplaceListingUI {
   createdAt: number;
 }
 
-type MarketplaceTab = 'browse' | 'my-listings' | 'sell' | 'swap';
+type MarketplaceTab = 'browse' | 'my-listings' | 'sell' | 'swap' | 'liquidity';
 
 export const Marketplace: React.FC = () => {
   const account = useCurrentAccount();
@@ -228,6 +229,16 @@ export const Marketplace: React.FC = () => {
         >
           💱 Swap
         </button>
+        <button
+          onClick={() => setActiveTab('liquidity')}
+          className={`px-3 py-2 font-bold text-xs md:text-sm transition-all whitespace-nowrap ${
+            activeTab === 'liquidity'
+              ? 'text-emerald-300 border-b-2 border-emerald-400 font-extrabold'
+              : 'text-emerald-200/70 hover:text-emerald-300'
+          }`}
+        >
+          💧 Liquidity
+        </button>
       </div>
 
       {/* Content */}
@@ -416,6 +427,13 @@ export const Marketplace: React.FC = () => {
                 console.error(`Swap failed: ${error}`);
               }}
             />
+          </div>
+        )}
+
+        {/* Liquidity Tab */}
+        {activeTab === 'liquidity' && (
+          <div className="flex justify-center py-8">
+            <AddLiquidity />
           </div>
         )}
       </div>

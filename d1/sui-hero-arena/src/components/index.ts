@@ -22,3 +22,4 @@ export { MarketplacePreview } from './MarketplacePreview';
 export { HeroSelector } from './HeroSelector';
 export { Marketplace } from './Marketplace';
 export { ForgeSwap } from './ForgeSwap';
+export { AddLiquidity } from './AddLiquidity';

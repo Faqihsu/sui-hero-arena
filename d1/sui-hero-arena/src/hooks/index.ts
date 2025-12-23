@@ -9,3 +9,4 @@ export { useDailyBonus } from './useDailyBonus';
 export { useMarketplaceListing } from './useMarketplaceListing';
 export { useMarketplacePurchase } from './useMarketplacePurchase';
 export { useMarketplaceListings, useListingDetails } from './useMarketplaceListings';
+export { useSuiCoins } from './useSuiCoins';
