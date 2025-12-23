@@ -308,7 +308,7 @@ const App: React.FC = () => {
             </div>
             <div className="relative">
               <span className="text-4xl font-black tracking-widest bg-gradient-to-r from-yellow-300 via-pink-300 to-cyan-300 bg-clip-text text-transparent drop-shadow-2xl animate-pulse">
-                GELUD KUY
+                Sui Forge Battles
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-yellow-300 via-pink-300 to-cyan-300 blur-lg opacity-60 -z-10 animate-pulse"></div>
             </div>
