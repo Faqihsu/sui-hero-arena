@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useCurrentAccount, useSuiClientQuery } from '@mysten/dapp-kit';
+import { useCurrentAccount } from '@mysten/dapp-kit';
 import { SuiClient } from '@mysten/sui/client';
 import { CONTRACT_CONFIG } from '@/config/contract';
 import { Button } from './Button';
