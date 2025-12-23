@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { HeroOnChain } from "./BattleFight";
 import { BattleLogModal } from "./BattleLogModal";
+import "./BattleArena.css";
 
 interface BattleLog {
   round: number;
@@ -23,6 +24,9 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
   const [winner, setWinner] = useState<string | null>(null);
   const [showBattleLog, setShowBattleLog] = useState(false);
   const [showResultDelay, setShowResultDelay] = useState(false);
+  const [isColliding, setIsColliding] = useState(false);
+  const [collisionSide, setCollisionSide] = useState<'left' | 'right' | null>(null);
+  const [showBattleAnimation, setShowBattleAnimation] = useState(false);
 
   const hero1 = useMemo(() => heroes.find((h) => h.id === selectedHero1), [heroes, selectedHero1]);
   const hero2 = useMemo(() => heroes.find((h) => h.id === selectedHero2), [heroes, selectedHero2]);
@@ -64,6 +68,7 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
     if (!hero1 || !hero2) return;
 
     setIsBattling(true);
+    setShowBattleAnimation(true);
     setBattleLogs([]);
     setWinner(null);
 
@@ -76,6 +81,10 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
       // Hero 1 menyerang
       const atk1Result = calculateDamage(hero1, hero2);
       hp2 = Math.max(0, hp2 - atk1Result.damage);
+
+      // Trigger collision animation
+      setCollisionSide('left');
+      setIsColliding(true);
 
       logs.push({
         round,
@@ -96,6 +105,10 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
       const atk2Result = calculateDamage(hero2, hero1);
       hp1 = Math.max(0, hp1 - atk2Result.damage);
 
+      // Trigger collision animation
+      setCollisionSide('right');
+      setIsColliding(true);
+
       logs[logs.length - 1].hero2Action = getActionDescription(hero2.name, atk2Result.damage, atk2Result.isCritical);
       logs[logs.length - 1].hero1HP = Math.max(0, hp1);
       setBattleLogs([...logs]);
@@ -104,6 +117,8 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
 
       // Delay setelah hero 2 attack
       await new Promise((resolve) => setTimeout(resolve, 1200));
+
+      setIsColliding(false);
     }
 
     setBattleLogs(logs);
@@ -121,6 +136,7 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
 
     // Show result animation delay
     setShowResultDelay(true);
+    setShowBattleAnimation(false);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setShowResultDelay(false);
 
@@ -217,6 +233,60 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
           >
             {isBattling ? "⚡ BATTLING..." : "⚔️ START BATTLE"}
           </button>
+        </div>
+      )}
+
+      {/* Battle Animation Display */}
+      {showBattleAnimation && hero1 && hero2 && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+          <div className="relative w-full max-w-4xl h-96 flex items-center justify-between px-8">
+            {/* Hero 1 Card */}
+            <div className={`battle-card battle-card-hero1 ${isColliding && collisionSide === 'left' ? 'colliding' : ''}`}>
+              <div className="relative">
+                <img
+                  src={hero1.image_url}
+                  alt={hero1.name}
+                  className="w-48 h-48 rounded-2xl object-cover shadow-2xl border-4 border-indigo-500"
+                />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                  <h3 className="font-bold text-2xl">{hero1.name}</h3>
+                  <p className="text-sm text-gray-300">Lv. {hero1.level}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Center VS */}
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-6xl font-black text-transparent bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text animate-pulse">
+                VS
+              </div>
+              {isColliding && (
+                <>
+                  <div className="collision-effect"></div>
+                  <div className="spark spark-1"></div>
+                  <div className="spark spark-2"></div>
+                  <div className="spark spark-3"></div>
+                </>
+              )}
+            </div>
+
+            {/* Hero 2 Card */}
+            <div className={`battle-card battle-card-hero2 ${isColliding && collisionSide === 'right' ? 'colliding' : ''}`}>
+              <div className="relative">
+                <img
+                  src={hero2.image_url}
+                  alt={hero2.name}
+                  className="w-48 h-48 rounded-2xl object-cover shadow-2xl border-4 border-indigo-500"
+                />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                  <h3 className="font-bold text-2xl">{hero2.name}</h3>
+                  <p className="text-sm text-gray-300">Lv. {hero2.level}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

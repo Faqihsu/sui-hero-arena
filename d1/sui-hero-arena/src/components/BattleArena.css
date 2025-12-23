@@ -1,0 +1,307 @@
+/* Battle Arena Animations */
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-200px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(200px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes collideLeft {
+  0% {
+    transform: translateX(0) scale(1) rotateZ(0deg);
+  }
+  50% {
+    transform: translateX(20px) scale(1.1) rotateZ(5deg);
+    filter: drop-shadow(0 0 20px rgba(255, 100, 0, 0.8));
+  }
+  100% {
+    transform: translateX(0) scale(1) rotateZ(0deg);
+  }
+}
+
+@keyframes collideRight {
+  0% {
+    transform: translateX(0) scale(1) rotateZ(0deg);
+  }
+  50% {
+    transform: translateX(-20px) scale(1.1) rotateZ(-5deg);
+    filter: drop-shadow(0 0 20px rgba(255, 100, 0, 0.8));
+  }
+  100% {
+    transform: translateX(0) scale(1) rotateZ(0deg);
+  }
+}
+
+@keyframes collisionExplosion {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+  }
+}
+
+@keyframes sparkFly {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes spark1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(80px, -80px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes spark2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-80px, -80px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes spark3 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(60px, 60px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes shockWave {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Battle Card Base Styles */
+.battle-card {
+  animation: slideInLeft 0.6s ease-out;
+  transition: all 0.3s ease;
+  perspective: 1000px;
+}
+
+.battle-card-hero1 {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.battle-card-hero2 {
+  animation: slideInRight 0.6s ease-out;
+}
+
+/* Collision Animation */
+.battle-card.colliding.battle-card-hero1 {
+  animation: collideLeft 0.6s ease-in-out;
+}
+
+.battle-card.colliding.battle-card-hero2 {
+  animation: collideRight 0.6s ease-in-out;
+}
+
+/* Collision Center Effect */
+.collision-effect {
+  position: absolute;
+  width: 0;
+  height: 0;
+  background: radial-gradient(
+    circle,
+    rgba(255, 150, 0, 0.8) 0%,
+    rgba(255, 100, 0, 0.4) 40%,
+    rgba(255, 50, 0, 0.2) 100%
+  );
+  border-radius: 50%;
+  animation: collisionExplosion 0.8s ease-out forwards;
+  box-shadow: 
+    0 0 30px rgba(255, 150, 0, 0.9),
+    0 0 60px rgba(255, 100, 0, 0.6),
+    0 0 90px rgba(255, 50, 0, 0.3);
+}
+
+/* Spark Effects */
+.spark {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffaa00, #ff6600);
+  box-shadow: 0 0 10px rgba(255, 150, 0, 0.8);
+}
+
+.spark-1 {
+  animation: spark1 0.8s ease-out forwards;
+  animation-delay: 0.1s;
+}
+
+.spark-2 {
+  animation: spark2 0.8s ease-out forwards;
+  animation-delay: 0.15s;
+}
+
+.spark-3 {
+  animation: spark3 0.7s ease-out forwards;
+  animation-delay: 0.2s;
+}
+
+/* Glow and Shadow Effects for Battle Cards */
+.battle-card img {
+  transition: all 0.3s ease;
+}
+
+.battle-card.colliding img {
+  filter: brightness(1.3) drop-shadow(0 0 20px rgba(255, 150, 0, 0.9));
+}
+
+/* Shock Wave */
+.shock-wave {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 3px solid rgba(255, 150, 0, 0.8);
+  border-radius: 50%;
+  animation: shockWave 0.6s ease-out;
+}
+
+/* Screen Shake on Collision */
+@keyframes screenShake {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-2px, 2px);
+  }
+  20% {
+    transform: translate(2px, -2px);
+  }
+  30% {
+    transform: translate(-2px, -2px);
+  }
+  40% {
+    transform: translate(2px, 2px);
+  }
+  50% {
+    transform: translate(-1px, 1px);
+  }
+  60% {
+    transform: translate(1px, -1px);
+  }
+  70% {
+    transform: translate(-1px, -1px);
+  }
+  80% {
+    transform: translate(1px, 1px);
+  }
+}
+
+.battle-animation-shake {
+  animation: screenShake 0.4s ease-in-out;
+}
+
+/* Floating Text Animation */
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+}
+
+.damage-text {
+  position: absolute;
+  font-weight: bold;
+  font-size: 24px;
+  color: #ff6600;
+  text-shadow: 0 0 10px rgba(255, 100, 0, 0.8);
+  animation: floatUp 1s ease-out forwards;
+  pointer-events: none;
+}
+
+/* Enhanced Glass Effect */
+.glass-dark {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* NFT Card Shimmer Effect */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.battle-card img::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+/* Pulse Effect on Battle */
+@keyframes battlePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.battle-card.colliding {
+  animation: battlePulse 0.4s ease-in-out;
+}
