@@ -150,7 +150,7 @@ export const Marketplace: React.FC = () => {
         <h1 className="text-4xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
           🏪 Hero Marketplace 🏪
         </h1>
-        <p className="text-cyan-300/60 text-sm">Trade heroes with FORGE tokens</p>
+        <p className="text-cyan-200 text-sm font-semibold">Trade heroes with FORGE tokens</p>
       </div>
 
       {/* Market Stats */}
@@ -160,7 +160,7 @@ export const Marketplace: React.FC = () => {
             <div className="text-4xl">📦</div>
             <div>
               <div className="text-2xl font-black text-cyan-400">{mockListings.length}</div>
-              <div className="text-sm text-cyan-300/60">Active Listings</div>
+              <div className="text-sm text-cyan-300 font-semibold">Active Listings</div>
             </div>
           </div>
         </div>
@@ -170,7 +170,7 @@ export const Marketplace: React.FC = () => {
             <div className="text-4xl">🔄</div>
             <div>
               <div className="text-2xl font-black text-purple-400">{mockListings.length * 2}</div>
-              <div className="text-sm text-purple-300/60">Total Trades</div>
+              <div className="text-sm text-purple-300 font-semibold">Total Trades</div>
             </div>
           </div>
         </div>
@@ -192,8 +192,8 @@ export const Marketplace: React.FC = () => {
           onClick={() => setActiveTab('browse')}
           className={`px-3 py-2 font-bold text-xs md:text-sm transition-all whitespace-nowrap ${
             activeTab === 'browse'
-              ? 'text-cyan-400 border-b-2 border-cyan-400'
-              : 'text-slate-400 hover:text-white'
+              ? 'text-cyan-300 border-b-2 border-cyan-400 font-extrabold'
+              : 'text-cyan-200/70 hover:text-cyan-300'
           }`}
         >
           📖 Browse
@@ -202,8 +202,8 @@ export const Marketplace: React.FC = () => {
           onClick={() => setActiveTab('my-listings')}
           className={`px-3 py-2 font-bold text-xs md:text-sm transition-all whitespace-nowrap ${
             activeTab === 'my-listings'
-              ? 'text-cyan-400 border-b-2 border-cyan-400'
-              : 'text-slate-400 hover:text-white'
+              ? 'text-cyan-300 border-b-2 border-cyan-400 font-extrabold'
+              : 'text-cyan-200/70 hover:text-cyan-300'
           }`}
         >
           📋 My Listings
@@ -212,8 +212,8 @@ export const Marketplace: React.FC = () => {
           onClick={() => setActiveTab('sell')}
           className={`px-3 py-2 font-bold text-xs md:text-sm transition-all whitespace-nowrap ${
             activeTab === 'sell'
-              ? 'text-cyan-400 border-b-2 border-cyan-400'
-              : 'text-slate-400 hover:text-white'
+              ? 'text-cyan-300 border-b-2 border-cyan-400 font-extrabold'
+              : 'text-cyan-200/70 hover:text-cyan-300'
           }`}
         >
           💰 Sell
@@ -222,8 +222,8 @@ export const Marketplace: React.FC = () => {
           onClick={() => setActiveTab('swap')}
           className={`px-3 py-2 font-bold text-xs md:text-sm transition-all whitespace-nowrap ${
             activeTab === 'swap'
-              ? 'text-cyan-400 border-b-2 border-cyan-400'
-              : 'text-slate-400 hover:text-white'
+              ? 'text-cyan-300 border-b-2 border-cyan-400 font-extrabold'
+              : 'text-cyan-200/70 hover:text-cyan-300'
           }`}
         >
           💱 Swap
