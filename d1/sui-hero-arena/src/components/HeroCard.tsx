@@ -57,8 +57,8 @@ export const HeroCard: React.FC<HeroCardProps> = ({
   const rarityEmoji = getRarityEmoji(rarity);
 
   return (
-    <div className={`group flex flex-col bg-gradient-to-br from-cyan-900/20 to-purple-900/20 rounded-2xl overflow-hidden border backdrop-blur-sm transition-all duration-300 hover:shadow-2xl ${
-      justLeveledUp ? 'animate-level-up border-cyan-500' : 'border-cyan-500/30 hover:border-cyan-500/60 hover:shadow-cyan-500/30'
+    <div className={`group flex flex-col bg-gradient-to-br from-cyan-900/20 to-purple-900/20 rounded-lg overflow-hidden border backdrop-blur-sm transition-all duration-300 hover:shadow-lg ${
+      justLeveledUp ? 'animate-level-up border-cyan-500' : 'border-cyan-500/30 hover:border-cyan-500/60 hover:shadow-cyan-500/20'
     }`}>
       {/* Visual Identity Area */}
       <div className="relative aspect-square overflow-hidden bg-slate-950">
@@ -83,34 +83,34 @@ export const HeroCard: React.FC<HeroCardProps> = ({
                 <span>{rarity}</span>
               </div>
               <div className="flex flex-col items-center justify-center">
-                <span className="text-[10px] uppercase font-semibold text-indigo-300 tracking-wide">Level</span>
-                <span className="text-2xl font-extrabold text-white drop-shadow-glow">{hero.stats.level}</span>
+                <span className="text-[9px] uppercase font-semibold text-cyan-300 tracking-wide">Lv</span>
+                <span className="text-xl font-extrabold text-white drop-shadow-glow">{hero.stats.level}</span>
               </div>
             </div>
         </div>
 
-        <div className="absolute bottom-4 left-4">
-          <h3 className="text-xl font-bold text-white tracking-tight">{hero.name}</h3>
+        <div className="absolute bottom-3 left-3">
+          <h3 className="text-sm font-bold text-white tracking-tight">{hero.name}</h3>
         </div>
       </div>
 
       {/* Structured Content Area */}
-      <div className="p-5 flex flex-col flex-1 space-y-5">
+      <div className="p-3 flex flex-col flex-1 space-y-2">
 
         {/* Professional Stats Display */}
-        <div className="grid grid-cols-2 gap-px bg-gradient-to-r from-cyan-900/30 to-purple-900/30 rounded-lg overflow-hidden border border-cyan-500/30">
-          <div className="bg-cyan-950/40 p-3 flex flex-col items-center gap-1">
-            <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-tighter">Attack</span>
-            <div className="flex items-center gap-2">
-              <span className="text-lg font-bold text-cyan-300">{hero.stats.attack}</span>
-              {justLeveledUp && <span className="text-[10px] text-emerald-400 font-bold">+2</span>}
+        <div className="grid grid-cols-2 gap-px bg-gradient-to-r from-cyan-900/30 to-purple-900/30 rounded-md overflow-hidden border border-cyan-500/30">
+          <div className="bg-cyan-950/40 p-2 flex flex-col items-center gap-0.5">
+            <span className="text-[8px] font-bold text-cyan-400 uppercase tracking-tighter">ATK</span>
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-bold text-cyan-300">{hero.stats.attack}</span>
+              {justLeveledUp && <span className="text-[8px] text-emerald-400 font-bold">+2</span>}
             </div>
           </div>
-          <div className="bg-purple-950/40 p-3 flex flex-col items-center gap-1">
-            <span className="text-[10px] font-bold text-purple-400 uppercase tracking-tighter">Defense</span>
-            <div className="flex items-center gap-2">
-              <span className="text-lg font-bold text-purple-300">{hero.stats.defense}</span>
-              {justLeveledUp && <span className="text-[10px] text-emerald-400 font-bold">+2</span>}
+          <div className="bg-purple-950/40 p-2 flex flex-col items-center gap-0.5">
+            <span className="text-[8px] font-bold text-purple-400 uppercase tracking-tighter">DEF</span>
+            <div className="flex items-center gap-1">
+              <span className="text-sm font-bold text-purple-300">{hero.stats.defense}</span>
+              {justLeveledUp && <span className="text-[8px] text-emerald-400 font-bold">+2</span>}
             </div>
           </div>
         </div>

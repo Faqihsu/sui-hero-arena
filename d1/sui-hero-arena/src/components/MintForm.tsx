@@ -116,23 +116,23 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
 
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="bg-slate-900/60 backdrop-blur-sm rounded-2xl border border-white/10 p-8">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-white mb-2">Summon New Hero</h2>
-          <p className="text-slate-400 text-sm">Create a unique hero for your collection</p>
+      <div className="bg-gradient-to-br from-cyan-900/20 to-purple-900/20 backdrop-blur-sm rounded-2xl border border-cyan-500/40 p-6">
+        <div className="mb-6">
+          <h2 className="text-3xl font-black text-transparent bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text mb-2">Summon New Hero</h2>
+          <p className="text-cyan-300/60 text-sm">Create a unique hero for your collection</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* Hero Name */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-bold text-cyan-300 mb-2 uppercase tracking-wider">
               Hero Name
             </label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-cyan-950/40 border border-cyan-500/30 rounded-lg text-white placeholder-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
               placeholder="Enter hero name..."
               maxLength={50}
             />
@@ -143,13 +143,13 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
 
           {/* Hero Class */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-bold text-cyan-300 mb-2 uppercase tracking-wider">
               Hero Class
             </label>
             <select
               value={formData.heroClass}
               onChange={(e) => handleInputChange('heroClass', e.target.value as HeroClass)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-cyan-950/40 border border-cyan-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             >
               {Object.values(HeroClass).map((heroClass) => (
                 <option key={heroClass} value={heroClass}>
@@ -161,20 +161,20 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
 
           {/* Image URL */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-bold text-cyan-300 mb-2 uppercase tracking-wider">
               Hero Image URL
             </label>
             <input
               type="url"
               value={formData.imageUrl}
               onChange={(e) => handleImageUrlChange(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-cyan-950/40 border border-cyan-500/30 rounded-lg text-white placeholder-cyan-300/40 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
               placeholder="https://example.com/hero-image.jpg"
             />
             {errors.imageUrl && (
               <p className="mt-1 text-sm text-red-400">{errors.imageUrl}</p>
             )}
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-xs text-cyan-300/40">
               Enter a direct URL to an image (e.g., JPG, PNG, GIF)
             </p>
 
@@ -184,7 +184,7 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
                 <img
                   src={imagePreview}
                   alt="Hero preview"
-                  className="w-full h-48 object-cover rounded-lg border border-slate-700"
+                  className="w-full max-w-xs h-32 object-cover rounded-lg border border-cyan-500/40 mx-auto"
                   onError={() => {
                     setErrors(prev => ({ ...prev, imageUrl: 'Failed to load image from URL' }));
                     setImagePreview('');
@@ -196,7 +196,7 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
                     setImagePreview('');
                     handleInputChange('imageUrl', '');
                   }}
-                  className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  className="absolute top-2 right-12 p-1 bg-red-500/80 hover:bg-red-600 text-white rounded-full transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -207,9 +207,9 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm font-bold text-cyan-300 mb-2 uppercase tracking-wider">
                 Attack Power
               </label>
               <input
@@ -244,11 +244,11 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
           </div>
 
           {/* Submit Button */}
-          <div className="pt-4">
+          <div className="pt-2">
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3"
+              className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-black py-3 uppercase tracking-wider"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">
@@ -256,7 +256,7 @@ export const MintForm: React.FC<MintFormProps> = ({ onMint, isLoading = false })
                   <span className="ml-2">Summoning Hero...</span>
                 </div>
               ) : (
-                'Summon Hero'
+                '✨ Summon Hero ✨'
               )}
             </Button>
           </div>

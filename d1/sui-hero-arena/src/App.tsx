@@ -311,8 +311,8 @@ const App: React.FC = () => {
               </svg>
             </div>
             <div className="relative">
-              <span className="text-4xl font-black tracking-wider bg-gradient-to-r from-cyan-400 via-pink-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
-                FORGE BATTLE
+              <span className="text-5xl font-black tracking-tighter bg-gradient-to-r from-cyan-300 via-pink-300 to-purple-300 bg-clip-text text-transparent drop-shadow-2xl">
+                FORGE<br/>BATTLE
               </span>
             </div>
           </div>
