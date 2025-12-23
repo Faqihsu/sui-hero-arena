@@ -288,48 +288,13 @@ const App: React.FC = () => {
       </div>
       <nav className="fixed top-0 left-0 right-0 h-16 backdrop-blur-2xl bg-black/30 border-b border-cyan-500/30 z-50 px-6 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          {/* LOGO + TEKS */}
-          <div className="app-logo flex items-center gap-4 group">
-            {/* ANIMATED LOGO */}
-            <div className="relative w-20 h-20 bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500 rounded-3xl flex items-center justify-center text-white shadow-2xl transition-all duration-300 hover:scale-125 group-hover:shadow-cyan-500/80 animate-pulse">
-              {/* Outer glow rings */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/30 to-pink-400/30 blur-xl animate-spin" style={{animationDuration: '4s'}}></div>
-              <div className="absolute inset-1 rounded-3xl border-2 border-cyan-300/50 opacity-0 group-hover:opacity-100 transition-opacity" style={{boxShadow: '0 0 20px rgba(6, 182, 212, 0.5)'}}></div>
-              
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="44"
-                height="44"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="relative z-10 drop-shadow-[0_0_10px_rgba(6,182,212,0.8)] transition-transform group-hover:rotate-12"
-              >
-                {/* Sword icon */}
-                <path d="M6 2l12 12-8 8-12-12 8-8z" />
-                <path d="M18 6l4-4" />
-                <circle cx="2" cy="18" r="1.5" fill="currentColor" />
-              </svg>
-            </div>
-
-            {/* TITLE WITH EFFECTS */}
-            <div className="relative">
-              {/* Glowing background text */}
-              <span className="absolute text-4xl font-black tracking-tight opacity-40 blur-lg text-cyan-300 pointer-events-none animate-pulse whitespace-nowrap" style={{textShadow: '0 0 12px rgba(6,182,212,0.5)'}}>
-                FORGE BATTLE
-              </span>
-              
-              {/* Main title - pure white with cyan glow */}
-              <span className="text-4xl font-black tracking-tight text-white whitespace-nowrap transition-all" style={{textShadow: '0 0 15px rgba(6,182,212,1), 0 0 30px rgba(6,182,212,0.9), 0 0 45px rgba(6,182,212,0.6)'}}>
-                FORGE BATTLE
-              </span>
-
-              {/* Subtitle */}
-              <span className="text-xs font-bold text-white tracking-widest uppercase mt-1 block animate-pulse" style={{textShadow: '0 0 10px rgba(6,182,212,0.8)'}}>⚔️ Epic Arena</span>
-            </div>
+          {/* LOGO ONLY */}
+          <div className="app-logo">
+            <img 
+              src="/forge-logo.png" 
+              alt="Forge Battle Logo" 
+              className="h-16 w-auto hover:scale-110 transition-transform drop-shadow-[0_0_20px_rgba(6,182,212,0.6)]"
+            />
           </div>
 
           <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
