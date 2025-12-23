@@ -1,11 +1,7 @@
 import React from 'react';
 import { PlayerStats } from '@/types';
 
-interface PlayerStatsDisplayProps {
-  stats: PlayerStats;
-}
-
-export const PlayerStatsDisplay: React.FC<PlayerStatsDisplayProps> = ({ stats }) => {
+export const PlayerStatsDisplay: React.FC<PlayerStats> = (stats) => {
   const winRate = stats.totalBattles === 0 ? 0 : Math.round((stats.wins / stats.totalBattles) * 100);
   const avgDamagePerBattle = Math.round((stats.wins * 15) / Math.max(1, stats.totalBattles));
 
@@ -18,60 +14,60 @@ export const PlayerStatsDisplay: React.FC<PlayerStatsDisplayProps> = ({ stats })
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-black bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
           📊 Your Statistics 📊
         </h1>
-        <p className="text-slate-400 text-sm">Track your battle progress and achievements</p>
+        <p className="text-cyan-300/60 text-sm">Track your battle progress and achievements</p>
       </div>
 
       {/* Main Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Win/Loss Overview */}
-        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-6 rounded-xl border border-slate-700/50 space-y-4">
-          <h3 className="text-lg font-bold text-white">Battle Record</h3>
+        <div className="bg-gradient-to-br from-cyan-900/20 to-purple-900/20 p-6 rounded-xl border border-cyan-500/40 backdrop-blur-sm space-y-4">
+          <h3 className="text-lg font-bold text-cyan-300">Battle Record</h3>
           
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-4xl font-black text-green-400">{stats.wins}</div>
-              <div className="text-sm text-slate-400 font-semibold">Victories</div>
+              <div className="text-4xl font-black text-emerald-400">{stats.wins}</div>
+              <div className="text-sm text-cyan-300/60 font-semibold">Victories</div>
             </div>
-            <div className="text-5xl text-slate-700">—</div>
+            <div className="text-5xl text-cyan-500/30">—</div>
             <div>
               <div className="text-4xl font-black text-red-400">{stats.losses}</div>
-              <div className="text-sm text-slate-400 font-semibold">Defeats</div>
+              <div className="text-sm text-cyan-300/60 font-semibold">Defeats</div>
             </div>
             {stats.draws > 0 && (
               <>
-                <div className="text-5xl text-slate-700">—</div>
+                <div className="text-5xl text-cyan-500/30">—</div>
                 <div>
                   <div className="text-4xl font-black text-yellow-400">{stats.draws}</div>
-                  <div className="text-sm text-slate-400 font-semibold">Draws</div>
+                  <div className="text-sm text-cyan-300/60 font-semibold">Draws</div>
                 </div>
               </>
             )}
           </div>
 
-          <div className="pt-4 border-t border-slate-700/50">
+          <div className="pt-4 border-t border-cyan-500/30">
             <div className="flex justify-between items-center">
-              <span className="text-slate-300 font-semibold">Total Battles:</span>
-              <span className="text-2xl font-black text-indigo-400">{stats.totalBattles}</span>
+              <span className="text-cyan-300 font-semibold">Total Battles:</span>
+              <span className="text-2xl font-black text-cyan-400">{stats.totalBattles}</span>
             </div>
           </div>
         </div>
 
         {/* Win Rate & Rating */}
-        <div className="bg-gradient-to-br from-slate-800/60 to-slate-900/60 p-6 rounded-xl border border-slate-700/50 space-y-4">
-          <h3 className="text-lg font-bold text-white">Performance</h3>
+        <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 p-6 rounded-xl border border-purple-500/40 backdrop-blur-sm space-y-4">
+          <h3 className="text-lg font-bold text-purple-300">Performance</h3>
 
           <div className="space-y-3">
             <div>
               <div className="flex justify-between items-center mb-2">
-                <span className="text-slate-300 font-semibold">Win Rate</span>
-                <span className="text-3xl font-black text-green-400">{winRate}%</span>
+                <span className="text-purple-300 font-semibold">Win Rate</span>
+                <span className="text-3xl font-black text-emerald-400">{winRate}%</span>
               </div>
-              <div className="w-full bg-slate-700/50 rounded-full h-3 overflow-hidden">
+              <div className="w-full bg-purple-900/30 rounded-full h-3 overflow-hidden">
                 <div 
-                  className="bg-gradient-to-r from-green-500 to-green-400 h-full transition-all duration-500"
+                  className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-full transition-all duration-500"
                   style={{ width: `${winRate}%` }}
                 />
               </div>

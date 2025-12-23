@@ -57,8 +57,8 @@ export const HeroCard: React.FC<HeroCardProps> = ({
   const rarityEmoji = getRarityEmoji(rarity);
 
   return (
-    <div className={`group flex flex-col bg-slate-900/40 rounded-2xl overflow-hidden border transition-all duration-300 ${
-      justLeveledUp ? 'animate-level-up' : 'border-slate-800 hover:border-slate-700'
+    <div className={`group flex flex-col bg-gradient-to-br from-cyan-900/20 to-purple-900/20 rounded-2xl overflow-hidden border backdrop-blur-sm transition-all duration-300 hover:shadow-2xl ${
+      justLeveledUp ? 'animate-level-up border-cyan-500' : 'border-cyan-500/30 hover:border-cyan-500/60 hover:shadow-cyan-500/30'
     }`}>
       {/* Visual Identity Area */}
       <div className="relative aspect-square overflow-hidden bg-slate-950">
@@ -71,7 +71,7 @@ export const HeroCard: React.FC<HeroCardProps> = ({
         
         {/* Contextual Badges */}
         <div className="absolute top-3 left-3 flex gap-2">
-          <span className="px-2 py-1 bg-black/60 backdrop-blur-md border border-white/10 rounded text-[10px] font-bold text-indigo-300 uppercase tracking-widest">
+          <span className="px-2 py-1 bg-gradient-to-r from-cyan-500/30 to-purple-500/30 backdrop-blur-md border border-cyan-400/50 rounded text-[10px] font-bold text-cyan-300 uppercase tracking-widest">
             {hero.class}
           </span>
         </div>
@@ -98,18 +98,18 @@ export const HeroCard: React.FC<HeroCardProps> = ({
       <div className="p-5 flex flex-col flex-1 space-y-5">
 
         {/* Professional Stats Display */}
-        <div className="grid grid-cols-2 gap-px bg-slate-800 rounded-lg overflow-hidden border border-slate-800">
-          <div className="bg-slate-900/60 p-3 flex flex-col items-center gap-1">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Attack</span>
+        <div className="grid grid-cols-2 gap-px bg-gradient-to-r from-cyan-900/30 to-purple-900/30 rounded-lg overflow-hidden border border-cyan-500/30">
+          <div className="bg-cyan-950/40 p-3 flex flex-col items-center gap-1">
+            <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-tighter">Attack</span>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold text-slate-200">{hero.stats.attack}</span>
+              <span className="text-lg font-bold text-cyan-300">{hero.stats.attack}</span>
               {justLeveledUp && <span className="text-[10px] text-emerald-400 font-bold">+2</span>}
             </div>
           </div>
-          <div className="bg-slate-900/60 p-3 flex flex-col items-center gap-1">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Defense</span>
+          <div className="bg-purple-950/40 p-3 flex flex-col items-center gap-1">
+            <span className="text-[10px] font-bold text-purple-400 uppercase tracking-tighter">Defense</span>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold text-slate-200">{hero.stats.defense}</span>
+              <span className="text-lg font-bold text-purple-300">{hero.stats.defense}</span>
               {justLeveledUp && <span className="text-[10px] text-emerald-400 font-bold">+2</span>}
             </div>
           </div>
@@ -120,10 +120,10 @@ export const HeroCard: React.FC<HeroCardProps> = ({
           <button
             onClick={() => onTrain?.(hero.id)}
             disabled={isTraining}
-            className="flex-[3] relative h-11 bg-white hover:bg-slate-100 disabled:bg-slate-800 text-slate-950 rounded-lg font-bold text-xs transition-all flex items-center justify-center gap-2"
+            className="flex-[3] relative h-11 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 disabled:from-slate-700 disabled:to-slate-800 text-white rounded-lg font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-cyan-500/50"
           >
             {isTraining ? (
-              <div className="w-4 h-4 border-2 border-slate-400 border-t-slate-900 rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-cyan-300 border-t-cyan-700 rounded-full animate-spin" />
             ) : (
               <>
                 LEVEL UP
@@ -132,7 +132,7 @@ export const HeroCard: React.FC<HeroCardProps> = ({
           </button>
           <button
             onClick={() => onTransfer?.(hero.id)}
-            className="text-md font-bold flex-1 h-11 border border-slate-700 hover:bg-slate-800 text-slate-400 rounded-lg transition-all flex items-center justify-center"
+            className="text-md font-bold flex-1 h-11 border-2 border-pink-500/50 hover:border-pink-500 hover:bg-pink-500/10 text-pink-400 rounded-lg transition-all flex items-center justify-center"
             title="Transfer ownership"
           >
             SEND
