@@ -288,13 +288,30 @@ const App: React.FC = () => {
       </div>
       <nav className="fixed top-0 left-0 right-0 h-16 backdrop-blur-2xl bg-black/30 border-b border-cyan-500/30 z-50 px-6 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          {/* LOGO ONLY */}
-          <div className="app-logo">
+          {/* LOGO + TITLE */}
+          <div className="app-logo flex items-center gap-4 group">
+            {/* IMAGE LOGO */}
             <img 
-              src="/forge-logo.png" 
+              src="/generated-image.png" 
               alt="Forge Battle Logo" 
-              className="h-16 w-auto hover:scale-110 transition-transform drop-shadow-[0_0_20px_rgba(6,182,212,0.6)]"
+              className="h-16 w-16 object-contain hover:scale-110 transition-transform drop-shadow-[0_0_20px_rgba(6,182,212,0.6)]"
             />
+
+            {/* TITLE WITH EFFECTS */}
+            <div className="relative">
+              {/* Glowing background text */}
+              <span className="absolute text-4xl font-black tracking-tight opacity-40 blur-lg text-cyan-300 pointer-events-none animate-pulse whitespace-nowrap" style={{textShadow: '0 0 12px rgba(6,182,212,0.5)'}}>
+                FORGE BATTLE
+              </span>
+              
+              {/* Main title - pure white with cyan glow */}
+              <span className="text-4xl font-black tracking-tight text-white whitespace-nowrap transition-all" style={{textShadow: '0 0 15px rgba(6,182,212,1), 0 0 30px rgba(6,182,212,0.9), 0 0 45px rgba(6,182,212,0.6)'}}>
+                FORGE BATTLE
+              </span>
+
+              {/* Subtitle */}
+              <span className="text-xs font-bold text-white tracking-widest uppercase mt-1 block animate-pulse" style={{textShadow: '0 0 10px rgba(6,182,212,0.8)'}}>⚔️ Epic Arena</span>
+            </div>
           </div>
 
           <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
