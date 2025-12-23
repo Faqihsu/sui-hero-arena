@@ -21,8 +21,18 @@ export const AddLiquidity: React.FC = () => {
       return;
     }
 
-    if (suiCoins.length === 0 || forgeCoins.length === 0) {
-      alert('You need both SUI and FORGE coins to add liquidity');
+    if (suiAmount50 < 1000000) {
+      alert('Need at least 0.001 SUI to add liquidity');
+      return;
+    }
+
+    if (forgeAmount50 < 1000) {
+      alert('Need at least 1 FORGE to add liquidity');
+      return;
+    }
+
+    if (forgeCoins.length === 0) {
+      alert('You need FORGE coins to add liquidity');
       return;
     }
 
@@ -30,16 +40,14 @@ export const AddLiquidity: React.FC = () => {
     try {
       const tx = new Transaction();
 
-      // Use first SUI coin
-      const suiCoin = suiCoins[0];
-      const suiCoinId = suiCoin.objectId;
+      // Split SUI from gas
+      const [suiCoin] = tx.splitCoins(tx.gas, [suiAmount50]);
 
       // Use first FORGE coin
       const forgeCoin = forgeCoins[0];
       const forgeCoinId = forgeCoin.objectId;
 
-      // Always split to ensure we have correct amounts
-      const [splitSuiCoin] = tx.splitCoins(tx.object(suiCoinId), [suiAmount50]);
+      // Split FORGE
       const [splitForgeCoin] = tx.splitCoins(tx.object(forgeCoinId), [forgeAmount50]);
 
       // Call add_liquidity function
@@ -47,8 +55,8 @@ export const AddLiquidity: React.FC = () => {
         target: `${CONTRACT_CONFIG.MARKETPLACE_PACKAGE_ID}::forge_swap::add_liquidity`,
         arguments: [
           tx.object(CONTRACT_CONFIG.FORGE_SWAP_POOL_ID), // pool
-          splitSuiCoin, // sui_coin (split result)
-          splitForgeCoin, // forge_coin (split result)
+          suiCoin, // sui_coin (from gas)
+          splitForgeCoin, // forge_coin (split)
         ],
       });
 
@@ -63,7 +71,7 @@ export const AddLiquidity: React.FC = () => {
           },
           onError: (error) => {
             console.error('Add liquidity failed:', error);
-            alert(`❌ Failed to add liquidity: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            alert(`❌ Failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
             setIsLoading(false);
           },
         }
