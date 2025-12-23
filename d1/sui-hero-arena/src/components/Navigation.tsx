@@ -2,25 +2,29 @@ import React from 'react';
 import { Icons } from '@/constants';
 
 interface NavigationProps {
-  activeTab: 'collection' | 'forge' | 'logs';
-  onTabChange: (tab: 'collection' | 'forge' | 'logs') => void;
+  activeTab: 'collection' | 'forge' | 'logs' | 'battle' | 'training';
+  onTabChange: (tab: 'collection' | 'forge' | 'logs' | 'battle' | 'training') => void;
 }
 
 export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
   const tabs = [
-    { id: 'collection', label: 'Units', icon: <Icons.Sword /> },
-    { id: 'forge', label: 'Summon', icon: <Icons.Zap /> },
-    { id: 'logs', label: 'History', icon: <Icons.History /> }
+    { id: 'collection', label: 'UNITS', icon: <Icons.Sword /> },
+    { id: 'forge', label: 'SUMMON', icon: <Icons.Zap /> },
+    { id: 'training', label: 'TRAIN', icon: <Icons.Zap /> },
+    { id: 'battle', label: 'BATTLE', icon: <Icons.Zap /> },
+    { id: 'logs', label: 'HISTORY', icon: <Icons.History /> }
   ];
 
   return (
-    <div className="hidden md:flex h-8 bg-slate-950/60 rounded-lg p-1 border border-white/5">
+    <div className="hidden md:flex gap-2 bg-gradient-to-r from-slate-950/90 to-slate-900/90 rounded-2xl p-3 border-2 border-indigo-500/30 backdrop-blur-xl">
       {tabs.map(tab => (
         <button
           key={tab.id}
           onClick={() => onTabChange(tab.id)}
-          className={`px-4 h-full rounded flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-all ${
-            activeTab === tab.id ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'
+          className={`px-6 py-3 rounded-xl flex items-center gap-2 text-sm font-black uppercase tracking-widest transition-all duration-300 ${
+            activeTab === tab.id 
+              ? 'bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white shadow-2xl shadow-orange-500/50 scale-105' 
+              : 'text-slate-200 hover:text-white hover:bg-white/10 hover:scale-102'
           }`}
         >
           {tab.label}

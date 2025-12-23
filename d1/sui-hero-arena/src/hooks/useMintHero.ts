@@ -2,10 +2,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSignAndExecuteTransaction, useCurrentAccount } from '@mysten/dapp-kit';
 import { Transaction } from '@mysten/sui/transactions';
 import { CONTRACT_CONFIG } from '@/config/contract';
+import { HeroClass } from '@/types';
 
 interface MintHeroData {
   name: string;
   imageUrl: string;
+  heroClass?: HeroClass;
 }
 
 interface UseMintHeroOptions {
@@ -30,8 +32,9 @@ export const useMintHero = (options?: UseMintHeroOptions) => {
         target: `${CONTRACT_CONFIG.PACKAGE_ID}::${CONTRACT_CONFIG.MODULE_NAME}::mint_hero`,
         arguments: [
           tx.pure.string(data.name),
-          tx.pure.string(data.imageUrl)
-        ]
+          tx.pure.string(data.imageUrl),
+          tx.pure.string(data.heroClass || 'Assassin'),
+        ],
       });
 
       const result = await signAndExecuteTransaction({

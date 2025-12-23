@@ -84,7 +84,7 @@ export const HeroCard: React.FC<HeroCardProps> = ({
               <div className="w-4 h-4 border-2 border-slate-400 border-t-slate-900 rounded-full animate-spin" />
             ) : (
               <>
-                TRAIN UNIT
+                LEVEL UP
               </>
             )}
           </button>

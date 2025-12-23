@@ -12,13 +12,23 @@ export const useHeroes = (ownerAddress: string | null) => {
 
   // Helper function to map hero class
   const mapHeroClass = (classString: string): HeroClass => {
-    switch (classString.toLowerCase()) {
+    const normalized = classString.toLowerCase().trim();
+    
+    switch (normalized) {
+      case 'assassin':
+        return HeroClass.ASSASSIN;
       case 'wizard':
         return HeroClass.WIZARD;
-      case 'rogue':
-        return HeroClass.ASSASSIN;
       case 'sniper':
         return HeroClass.SNIPER;
+      case 'paladin':
+        return HeroClass.PALADIN;
+      case 'ranger':
+        return HeroClass.RANGER;
+      case 'sorceress':
+        return HeroClass.SORCERESS;
+      case 'rogue':
+        return HeroClass.ASSASSIN;
       default:
         return HeroClass.ASSASSIN;
     }
@@ -61,10 +71,13 @@ export const useHeroes = (ownerAddress: string | null) => {
       return null;
     }
 
+    // Get hero_class from display data (newly added field)
+    const heroClassFromDisplay = display.hero_class || display.class || 'Assassin';
+
     return {
       id: obj.data?.objectId || '',
       name: display.name || 'Unknown Hero',
-      class: mapHeroClass(display.class || 'Warrior'),
+      class: mapHeroClass(heroClassFromDisplay),
       imageUrl: display.image_url || '',
       stats: {
         hp: Number(content.fields?.hp || 100),
