@@ -187,46 +187,46 @@ export const Marketplace: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-slate-700">
+      <div className="flex flex-wrap gap-1 border-b border-slate-700 overflow-x-auto">
         <button
           onClick={() => setActiveTab('browse')}
-          className={`px-6 py-3 font-bold transition-all ${
+          className={`px-3 py-2 font-bold text-xs md:text-sm transition-all whitespace-nowrap ${
             activeTab === 'browse'
               ? 'text-cyan-400 border-b-2 border-cyan-400'
               : 'text-slate-400 hover:text-white'
           }`}
         >
-          📖 Browse Listings ({mockListings.length})
+          📖 Browse
         </button>
         <button
           onClick={() => setActiveTab('my-listings')}
-          className={`px-6 py-3 font-bold transition-all ${
+          className={`px-3 py-2 font-bold text-xs md:text-sm transition-all whitespace-nowrap ${
             activeTab === 'my-listings'
               ? 'text-cyan-400 border-b-2 border-cyan-400'
               : 'text-slate-400 hover:text-white'
           }`}
         >
-          📋 My Listings ({userListings.length})
+          📋 My Listings
         </button>
         <button
           onClick={() => setActiveTab('sell')}
-          className={`px-6 py-3 font-bold transition-all ${
+          className={`px-3 py-2 font-bold text-xs md:text-sm transition-all whitespace-nowrap ${
             activeTab === 'sell'
               ? 'text-cyan-400 border-b-2 border-cyan-400'
               : 'text-slate-400 hover:text-white'
           }`}
         >
-          💰 Sell Hero
+          💰 Sell
         </button>
         <button
           onClick={() => setActiveTab('swap')}
-          className={`px-6 py-3 font-bold transition-all ${
+          className={`px-3 py-2 font-bold text-xs md:text-sm transition-all whitespace-nowrap ${
             activeTab === 'swap'
               ? 'text-cyan-400 border-b-2 border-cyan-400'
               : 'text-slate-400 hover:text-white'
           }`}
         >
-          💱 Swap (SUI ↔ FORGE)
+          💱 Swap
         </button>
       </div>
 
