@@ -247,29 +247,63 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
 
       <div className="space-y-6">
       {/* Hero Selection */}
-      <div className="grid md:grid-cols-2 gap-6 bg-gradient-to-b from-slate-800/20 to-transparent rounded-xl p-6 border border-slate-700/30">
+      {/* Hero Selection with Images */}
+      <div className="grid md:grid-cols-2 gap-6">
         {/* Hero 1 Selection */}
         <div>
-          <h3 className="text-base font-bold text-white mb-3">Select Fighter 1</h3>
-          <div className="space-y-2 max-h-96 overflow-y-auto">
+          <h3 className="text-base font-bold text-white mb-4 text-center">Select Fighter 1</h3>
+          <div className="grid grid-cols-1 gap-3 max-h-96 overflow-y-auto pr-2">
             {availableHeroes1.map((hero) => (
               <button
                 key={hero.id}
                 onClick={() => setSelectedHero1(hero.id)}
                 disabled={isBattling}
-                className={`w-full p-3 rounded-lg text-left transition-all border ${
+                className={`group relative overflow-hidden rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 ${
                   selectedHero1 === hero.id
-                    ? "bg-indigo-600/20 border-indigo-500"
-                    : "border-slate-600 hover:border-slate-500"
-                } disabled:opacity-50`}
+                    ? "ring-2 ring-indigo-500 shadow-lg shadow-indigo-500/50"
+                    : "ring-1 ring-slate-600 hover:ring-indigo-400"
+                }`}
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-white text-base">{hero.name}</span>
-                  <span className="text-sm font-semibold text-yellow-400">Lv. {hero.level}</span>
+                {/* NFT Card Image */}
+                <img
+                  src={hero.image_url}
+                  alt={hero.name}
+                  className="w-full h-40 object-cover group-hover:brightness-110 transition-all duration-300"
+                />
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                
+                {/* Hero Info */}
+                <div className="absolute bottom-0 left-0 right-0 p-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-bold text-white text-sm">{hero.name}</h4>
+                    <span className="text-xs font-bold px-2 py-1 bg-yellow-500/80 text-white rounded">Lv. {hero.level}</span>
+                  </div>
+                  
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-1 mt-2 text-xs font-bold">
+                    <div className="text-center">
+                      <div className="text-red-400">❤️</div>
+                      <div className="text-white">{hero.health}</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-orange-400">⚔️</div>
+                      <div className="text-white">{hero.attack}</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-blue-400">🛡️</div>
+                      <div className="text-white">{hero.defense}</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-sm text-slate-300 mt-1 font-medium">
-                  HP: <span className="text-red-400 font-bold">{hero.health}</span> | ATK: <span className="text-orange-400 font-bold">{hero.attack}</span> | DEF: <span className="text-blue-400 font-bold">{hero.defense}</span>
-                </div>
+                
+                {/* Selection Indicator */}
+                {selectedHero1 === hero.id && (
+                  <div className="absolute top-2 right-2 bg-indigo-500 rounded-full p-2">
+                    <div className="w-4 h-4 bg-white rounded-full"></div>
+                  </div>
+                )}
               </button>
             ))}
           </div>
@@ -277,26 +311,59 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
 
         {/* Hero 2 Selection */}
         <div>
-          <h3 className="text-base font-bold text-white mb-3">Select Fighter 2</h3>
-          <div className="space-y-2 max-h-96 overflow-y-auto">
+          <h3 className="text-base font-bold text-white mb-4 text-center">Select Fighter 2</h3>
+          <div className="grid grid-cols-1 gap-3 max-h-96 overflow-y-auto pr-2">
             {availableHeroes2.map((hero) => (
               <button
                 key={hero.id}
                 onClick={() => setSelectedHero2(hero.id)}
                 disabled={isBattling}
-                className={`w-full p-3 rounded-lg text-left transition-all border ${
+                className={`group relative overflow-hidden rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 ${
                   selectedHero2 === hero.id
-                    ? "bg-indigo-600/20 border-indigo-500"
-                    : "border-slate-600 hover:border-slate-500"
-                } disabled:opacity-50`}
+                    ? "ring-2 ring-indigo-500 shadow-lg shadow-indigo-500/50"
+                    : "ring-1 ring-slate-600 hover:ring-indigo-400"
+                }`}
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-white text-base">{hero.name}</span>
-                  <span className="text-sm font-semibold text-yellow-400">Lv. {hero.level}</span>
+                {/* NFT Card Image */}
+                <img
+                  src={hero.image_url}
+                  alt={hero.name}
+                  className="w-full h-40 object-cover group-hover:brightness-110 transition-all duration-300"
+                />
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                
+                {/* Hero Info */}
+                <div className="absolute bottom-0 left-0 right-0 p-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-bold text-white text-sm">{hero.name}</h4>
+                    <span className="text-xs font-bold px-2 py-1 bg-yellow-500/80 text-white rounded">Lv. {hero.level}</span>
+                  </div>
+                  
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-1 mt-2 text-xs font-bold">
+                    <div className="text-center">
+                      <div className="text-red-400">❤️</div>
+                      <div className="text-white">{hero.health}</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-orange-400">⚔️</div>
+                      <div className="text-white">{hero.attack}</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-blue-400">🛡️</div>
+                      <div className="text-white">{hero.defense}</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-sm text-slate-300 mt-1 font-medium">
-                  HP: <span className="text-red-400 font-bold">{hero.health}</span> | ATK: <span className="text-orange-400 font-bold">{hero.attack}</span> | DEF: <span className="text-blue-400 font-bold">{hero.defense}</span>
-                </div>
+                
+                {/* Selection Indicator */}
+                {selectedHero2 === hero.id && (
+                  <div className="absolute top-2 right-2 bg-indigo-500 rounded-full p-2">
+                    <div className="w-4 h-4 bg-white rounded-full"></div>
+                  </div>
+                )}
               </button>
             ))}
           </div>
