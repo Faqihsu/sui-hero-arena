@@ -30,36 +30,25 @@ export const AddLiquidity: React.FC = () => {
     try {
       const tx = new Transaction();
 
-      // Use first SUI coin (or largest)
+      // Use first SUI coin
       const suiCoin = suiCoins[0];
       const suiCoinId = suiCoin.objectId;
 
-      // Use first FORGE coin (or largest)
+      // Use first FORGE coin
       const forgeCoin = forgeCoins[0];
       const forgeCoinId = forgeCoin.objectId;
 
-      // Split coins if needed
-      let splitSuiCoin = suiCoinId;
-      let splitForgeCoin = forgeCoinId;
-
-      // If coin balance is greater than needed, split it
-      if (suiCoin.balance && parseInt(suiCoin.balance) > suiAmount50) {
-        const coins = tx.splitCoins(tx.object(suiCoinId), [suiAmount50]);
-        splitSuiCoin = coins[0];
-      }
-
-      if (forgeCoin.balance && parseInt(forgeCoin.balance) > forgeAmount50) {
-        const coins = tx.splitCoins(tx.object(forgeCoinId), [forgeAmount50]);
-        splitForgeCoin = coins[0];
-      }
+      // Always split to ensure we have correct amounts
+      const [splitSuiCoin] = tx.splitCoins(tx.object(suiCoinId), [suiAmount50]);
+      const [splitForgeCoin] = tx.splitCoins(tx.object(forgeCoinId), [forgeAmount50]);
 
       // Call add_liquidity function
       tx.moveCall({
         target: `${CONTRACT_CONFIG.MARKETPLACE_PACKAGE_ID}::forge_swap::add_liquidity`,
         arguments: [
           tx.object(CONTRACT_CONFIG.FORGE_SWAP_POOL_ID), // pool
-          tx.object(splitSuiCoin), // sui_coin
-          tx.object(splitForgeCoin), // forge_coin
+          splitSuiCoin, // sui_coin (split result)
+          splitForgeCoin, // forge_coin (split result)
         ],
       });
 
