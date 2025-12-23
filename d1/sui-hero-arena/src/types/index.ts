@@ -73,6 +73,8 @@ export interface BattleLog {
   hero2Id: string;
   hero1Name: string;
   hero2Name: string;
+  hero1Level: number;
+  hero2Level: number;
   winner: string | 'draw';
   timestamp: number;
   battleRounds: number;

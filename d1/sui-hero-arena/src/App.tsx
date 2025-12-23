@@ -176,6 +176,8 @@ const App: React.FC = () => {
       hero2Id: hero2.id,
       hero1Name: hero1.name,
       hero2Name: hero2.name,
+      hero1Level: hero1.stats.level,
+      hero2Level: hero2.stats.level,
       winner: winnerId,
       timestamp: Date.now(),
       battleRounds: roundCount,
