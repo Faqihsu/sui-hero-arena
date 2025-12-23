@@ -23,10 +23,11 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
   const [battleLogs, setBattleLogs] = useState<BattleLog[]>([]);
   const [winner, setWinner] = useState<string | null>(null);
   const [showBattleLog, setShowBattleLog] = useState(false);
-  const [showResultDelay, setShowResultDelay] = useState(false);
   const [isColliding, setIsColliding] = useState(false);
   const [collisionSide, setCollisionSide] = useState<'left' | 'right' | null>(null);
   const [showBattleAnimation, setShowBattleAnimation] = useState(false);
+  const [battleTheme, setBattleTheme] = useState<'fire' | 'ice' | 'lightning'>('fire');
+  const [slowMotion, setSlowMotion] = useState(false);
 
   const hero1 = useMemo(() => heroes.find((h) => h.id === selectedHero1), [heroes, selectedHero1]);
   const hero2 = useMemo(() => heroes.find((h) => h.id === selectedHero2), [heroes, selectedHero2]);
@@ -40,6 +41,41 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
     () => heroes.filter((h) => h.id !== selectedHero1),
     [heroes, selectedHero1]
   );
+
+  // Play collision sound effect
+  const playCollisionSound = () => {
+    // Create collision sound using Web Audio API
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 200;
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
+  };
+
+  // Play hit sound effect
+  const playHitSound = () => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 150;
+    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.15);
+  };
 
   const getActionDescription = (attacker: string, damage: number, isCritical: boolean = false): string => {
     const actions = [
@@ -69,6 +105,7 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
 
     setIsBattling(true);
     setShowBattleAnimation(true);
+    setSlowMotion(true);
     setBattleLogs([]);
     setWinner(null);
 
@@ -85,6 +122,7 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
       // Trigger collision animation
       setCollisionSide('left');
       setIsColliding(true);
+      playCollisionSound();
 
       logs.push({
         round,
@@ -95,6 +133,10 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
       });
 
       setBattleLogs([...logs]);
+
+      // Play hit sound
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      playHitSound();
 
       // Delay setelah hero 1 attack
       await new Promise((resolve) => setTimeout(resolve, 1200));
@@ -108,10 +150,15 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
       // Trigger collision animation
       setCollisionSide('right');
       setIsColliding(true);
+      playCollisionSound();
 
       logs[logs.length - 1].hero2Action = getActionDescription(hero2.name, atk2Result.damage, atk2Result.isCritical);
       logs[logs.length - 1].hero1HP = Math.max(0, hp1);
       setBattleLogs([...logs]);
+
+      // Play hit sound
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      playHitSound();
 
       round++;
 
@@ -134,11 +181,10 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
       setWinner("draw");
     }
 
-    // Show result animation delay
-    setShowResultDelay(true);
+    // Langsung close animation dan show battle log
+    setSlowMotion(false);
     setShowBattleAnimation(false);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setShowResultDelay(false);
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     setIsBattling(false);
     setShowBattleLog(true);
@@ -164,6 +210,41 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
         </h1>
         <p className="text-slate-400 text-sm">Choose your fighters and clash for glory!</p>
       </div>
+
+      {/* Theme Selector */}
+      <div className="flex justify-center gap-3">
+        <button
+          onClick={() => setBattleTheme('fire')}
+          className={`px-4 py-2 rounded-lg font-bold transition-all ${
+            battleTheme === 'fire'
+              ? 'bg-orange-600 text-white shadow-lg shadow-orange-500/50'
+              : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+          }`}
+        >
+          🔥 Fire
+        </button>
+        <button
+          onClick={() => setBattleTheme('ice')}
+          className={`px-4 py-2 rounded-lg font-bold transition-all ${
+            battleTheme === 'ice'
+              ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/50'
+              : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+          }`}
+        >
+          ❄️ Ice
+        </button>
+        <button
+          onClick={() => setBattleTheme('lightning')}
+          className={`px-4 py-2 rounded-lg font-bold transition-all ${
+            battleTheme === 'lightning'
+              ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/50'
+              : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+          }`}
+        >
+          ⚡ Lightning
+        </button>
+      </div>
+
       <div className="space-y-6">
       {/* Hero Selection */}
       <div className="grid md:grid-cols-2 gap-6 bg-gradient-to-b from-slate-800/20 to-transparent rounded-xl p-6 border border-slate-700/30">
@@ -238,7 +319,7 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
 
       {/* Battle Animation Display */}
       {showBattleAnimation && hero1 && hero2 && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div className={`battle-theme-${battleTheme} fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm ${slowMotion ? 'battle-slow-motion' : ''}`}>
           <div className="relative w-full max-w-4xl h-96 flex items-center justify-between px-8">
             {/* Hero 1 Card */}
             <div className={`battle-card battle-card-hero1 ${isColliding && collisionSide === 'left' ? 'colliding' : ''}`}>
@@ -267,6 +348,9 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
                   <div className="spark spark-1"></div>
                   <div className="spark spark-2"></div>
                   <div className="spark spark-3"></div>
+                  <div className="spark spark-4"></div>
+                  <div className="spark spark-5"></div>
+                  <div className="spark spark-6"></div>
                 </>
               )}
             </div>
@@ -300,24 +384,6 @@ export function BattleArena({ heroes, onBattleEnd }: BattleArenaProps) {
         onClose={() => setShowBattleLog(false)}
         onNewBattle={resetBattle}
       />
-
-      {/* Result Animation Overlay */}
-      {showResultDelay && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-          <div className="relative text-center space-y-6 animate-bounce">
-            <div className="text-7xl">⚔️</div>
-            <div className="text-4xl font-black bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent animate-pulse">
-              ANALYZING BATTLE...
-            </div>
-            <div className="flex justify-center gap-2">
-              <div className="w-3 h-3 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
-              <div className="w-3 h-3 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-              <div className="w-3 h-3 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
     </div>
   );

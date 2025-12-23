@@ -55,8 +55,8 @@
     opacity: 1;
   }
   100% {
-    width: 200px;
-    height: 200px;
+    width: 400px;
+    height: 400px;
     opacity: 0;
   }
 }
@@ -100,6 +100,39 @@
   }
   100% {
     transform: translate(60px, 60px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes spark4 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-60px, 80px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes spark5 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100px, -40px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes spark6 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-100px, -40px) scale(0);
     opacity: 0;
   }
 }
@@ -158,7 +191,7 @@
     0 0 90px rgba(255, 50, 0, 0.3);
 }
 
-/* Spark Effects */
+/* Spark Effects - Multiple Sparks */
 .spark {
   position: absolute;
   width: 8px;
@@ -181,6 +214,21 @@
 .spark-3 {
   animation: spark3 0.7s ease-out forwards;
   animation-delay: 0.2s;
+}
+
+.spark-4 {
+  animation: spark4 0.8s ease-out forwards;
+  animation-delay: 0.12s;
+}
+
+.spark-5 {
+  animation: spark5 0.75s ease-out forwards;
+  animation-delay: 0.18s;
+}
+
+.spark-6 {
+  animation: spark6 0.85s ease-out forwards;
+  animation-delay: 0.22s;
 }
 
 /* Glow and Shadow Effects for Battle Cards */
@@ -304,4 +352,83 @@
 
 .battle-card.colliding {
   animation: battlePulse 0.4s ease-in-out;
+}
+
+/* Slow Motion Effect */
+.battle-slow-motion {
+  animation-play-state: paused;
+}
+
+.battle-slow-motion * {
+  animation-duration: 1.5s !important;
+}
+
+/* Theme Variants */
+/* Fire Theme (Orange/Red) */
+.battle-theme-fire .spark {
+  background: linear-gradient(135deg, #ffaa00, #ff6600);
+  box-shadow: 0 0 10px rgba(255, 100, 0, 0.9);
+}
+
+.battle-theme-fire .collision-effect {
+  background: radial-gradient(
+    circle,
+    rgba(255, 100, 0, 0.8) 0%,
+    rgba(255, 50, 0, 0.4) 40%,
+    rgba(255, 0, 0, 0.2) 100%
+  );
+  box-shadow: 
+    0 0 40px rgba(255, 150, 0, 0.9),
+    0 0 80px rgba(255, 100, 0, 0.6),
+    0 0 120px rgba(255, 50, 0, 0.3);
+}
+
+.battle-theme-fire .battle-card.colliding img {
+  filter: brightness(1.4) drop-shadow(0 0 30px rgba(255, 100, 0, 0.95));
+}
+
+/* Ice Theme (Blue/Cyan) */
+.battle-theme-ice .spark {
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+  box-shadow: 0 0 10px rgba(0, 200, 255, 0.9);
+}
+
+.battle-theme-ice .collision-effect {
+  background: radial-gradient(
+    circle,
+    rgba(0, 200, 255, 0.8) 0%,
+    rgba(0, 150, 200, 0.4) 40%,
+    rgba(0, 100, 150, 0.2) 100%
+  );
+  box-shadow: 
+    0 0 40px rgba(0, 200, 255, 0.9),
+    0 0 80px rgba(0, 150, 200, 0.6),
+    0 0 120px rgba(0, 100, 150, 0.3);
+}
+
+.battle-theme-ice .battle-card.colliding img {
+  filter: brightness(1.2) saturate(1.5) drop-shadow(0 0 30px rgba(0, 200, 255, 0.95));
+}
+
+/* Lightning Theme (Yellow/Purple) */
+.battle-theme-lightning .spark {
+  background: linear-gradient(135deg, #ffff00, #9900ff);
+  box-shadow: 0 0 10px rgba(200, 0, 255, 0.9);
+}
+
+.battle-theme-lightning .collision-effect {
+  background: radial-gradient(
+    circle,
+    rgba(150, 0, 255, 0.8) 0%,
+    rgba(100, 0, 200, 0.4) 40%,
+    rgba(50, 0, 150, 0.2) 100%
+  );
+  box-shadow: 
+    0 0 40px rgba(200, 0, 255, 0.9),
+    0 0 80px rgba(150, 0, 200, 0.6),
+    0 0 120px rgba(100, 0, 150, 0.3);
+}
+
+.battle-theme-lightning .battle-card.colliding img {
+  filter: brightness(1.3) hue-rotate(270deg) drop-shadow(0 0 30px rgba(200, 0, 255, 0.95));
 }
