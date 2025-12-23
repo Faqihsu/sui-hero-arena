@@ -292,7 +292,7 @@ const App: React.FC = () => {
           <div className="app-logo flex items-center gap-4 group">
             {/* IMAGE LOGO - LARGER */}
             <img 
-              src="/generated-image.png" 
+              src="/generated-image (2).png" 
               alt="Forge Battle Logo" 
               className="h-20 w-20 object-contain hover:scale-110 transition-transform drop-shadow-[0_0_20px_rgba(6,182,212,0.6)]"
             />
