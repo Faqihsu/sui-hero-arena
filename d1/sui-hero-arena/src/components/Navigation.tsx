@@ -7,7 +7,9 @@ interface NavigationProps {
 }
 
 export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
-  const tabs = [
+  type TabId = 'collection' | 'forge' | 'logs' | 'battle' | 'training' | 'stats' | 'leaderboard' | 'marketplace';
+  
+  const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
     { id: 'collection', label: 'UNITS', icon: <Icons.Sword /> },
     { id: 'forge', label: 'SUMMON', icon: <Icons.Zap /> },
     { id: 'training', label: 'TRAIN', icon: <Icons.Zap /> },
@@ -23,7 +25,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
       {tabs.map(tab => (
         <button
           key={tab.id}
-          onClick={() => onTabChange(tab.id)}
+          onClick={() => onTabChange(tab.id as TabId)}
           className={`px-4 py-2 rounded-lg flex items-center gap-1 text-xs font-black uppercase tracking-widest transition-all duration-300 whitespace-nowrap ${
             activeTab === tab.id 
               ? 'bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white shadow-lg shadow-cyan-500/50 scale-105' 
