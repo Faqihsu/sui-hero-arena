@@ -318,16 +318,6 @@ const App: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="hidden sm:flex flex-col items-end leading-none">
-            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">
-              Network: Testnet
-            </span>
-            {currentAccount && (
-              <span className="text-[11px] font-mono text-indigo-400">
-                {currentAccount.address.slice(0, 6)}...{currentAccount.address.slice(-4)}
-              </span>
-            )}
-          </div>
           <WalletConnect />
         </div>
       </nav>
