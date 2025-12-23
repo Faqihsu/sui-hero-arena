@@ -1,0 +1,132 @@
+[note] Dependencies on Bridge, MoveStdlib, Sui, and SuiSystem are automatically added, but this feature is disabled for your package because you have explicitly included dependencies on Sui. Consider removing these dependencies from Move.toml.
+UPDATING GIT DEPENDENCY https://github.com/MystenLabs/sui.git
+INCLUDING DEPENDENCY Sui
+INCLUDING DEPENDENCY MoveStdlib
+BUILDING hero_marketplace
+warning[W04037]: deprecated usage
+   ΓöîΓöÇ .\sources\forge_token.move:10:42
+   Γöé
+10 Γöé         let (treasury, metadata) = coin::create_currency<FORGE_TOKEN>(
+   Γöé                                          ^^^^^^^^^^^^^^^ The function 'sui::coin::create_currency' is deprecated: Use `coin_registry::new_currency_with_otw` instead
+   Γöé
+   = This warning can be suppressed with '#[allow(deprecated_usage)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[Lint W99010]: unnecessary `entry` on a `public` function
+   ΓöîΓöÇ .\sources\forge_token.move:25:12
+   Γöé
+25 Γöé     public entry fun mint_and_transfer(
+   Γöé            ^^^^^ `entry` on `public` functions limits composability as it adds restrictions, e.g. the type of each return value must have `drop`. `entry` on `public` is only meaningful in niche scenarios.
+   Γöé
+   = `public` functions can be called from PTBs. `entry` can be used to allow non-`public` functions to be called from PTBs, but it adds restrictions on the usage of input arguments and on the type of return values. Unless this `public` function interacts with an intricate set of other `entry` functions, the `entry` modifier should be removed.
+   = This warning can be suppressed with '#[allow(lint(public_entry))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[W02021]: duplicate alias
+  ΓöîΓöÇ .\sources\forge_swap.move:5:22
+  Γöé
+5 Γöé     use sui::object::UID;
+  Γöé                      ^^^ Unnecessary alias 'UID' for module member 'sui::object::UID'. This alias is provided by default
+  Γöé
+  = This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[W02021]: duplicate alias
+  ΓöîΓöÇ .\sources\forge_swap.move:7:14
+  Γöé
+7 Γöé     use sui::object;
+  Γöé              ^^^^^^ Unnecessary alias 'object' for module 'sui::object'. This alias is provided by default
+  Γöé
+  = This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[W02021]: duplicate alias
+  ΓöîΓöÇ .\sources\forge_swap.move:8:14
+  Γöé
+8 Γöé     use sui::transfer;
+  Γöé              ^^^^^^^^ Unnecessary alias 'transfer' for module 'sui::transfer'. This alias is provided by default
+  Γöé
+  = This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[W02021]: duplicate alias
+  ΓöîΓöÇ .\sources\forge_swap.move:9:27
+  Γöé
+9 Γöé     use sui::tx_context::{TxContext, Self};
+  Γöé                           ^^^^^^^^^ Unnecessary alias 'TxContext' for module member 'sui::tx_context::TxContext'. This alias is provided by default
+  Γöé
+  = This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[W02021]: duplicate alias
+  ΓöîΓöÇ .\sources\forge_swap.move:9:38
+  Γöé
+9 Γöé     use sui::tx_context::{TxContext, Self};
+  Γöé                                      ^^^^ Unnecessary alias 'tx_context' for module 'sui::tx_context'. This alias is provided by default
+  Γöé
+  = This warning can be suppressed with '#[allow(duplicate_alias)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+error[E04007]: incompatible types
+   ΓöîΓöÇ .\sources\forge_swap.move:29:40
+   Γöé  
+28 Γöé       fun init(witness: FORGE_SWAP, ctx: &mut TxContext) {
+   Γöé                         ---------- Given: 'hero_marketplace::forge_swap::FORGE_SWAP'
+29 Γöé           let (mut treasury, metadata) = coin::create_currency<FORGE>(
+   Γöé                                                                ----- Expected: 'hero_marketplace::forge_swap::FORGE'
+   Γöé Γò¡ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ^
+30 Γöé Γöé             witness,
+31 Γöé Γöé             8,  // 8 decimals
+32 Γöé Γöé             b"FORGE",
+   ┬╖ Γöé
+36 Γöé Γöé             ctx
+37 Γöé Γöé         );
+   Γöé Γò░ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ^ Invalid call of 'sui::coin::create_currency'. Invalid argument for parameter 'witness'
+
+warning[W04037]: deprecated usage
+   ΓöîΓöÇ .\sources\forge_swap.move:29:46
+   Γöé
+29 Γöé         let (mut treasury, metadata) = coin::create_currency<FORGE>(
+   Γöé                                              ^^^^^^^^^^^^^^^ The function 'sui::coin::create_currency' is deprecated: Use `coin_registry::new_currency_with_otw` instead
+   Γöé
+   = This warning can be suppressed with '#[allow(deprecated_usage)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[Lint W99010]: unnecessary `entry` on a `public` function
+   ΓöîΓöÇ .\sources\forge_swap.move:72:12
+   Γöé
+72 Γöé     public entry fun swap_sui_for_forge(
+   Γöé            ^^^^^ `entry` on `public` functions limits composability as it adds restrictions, e.g. the type of each return value must have `drop`. `entry` on `public` is only meaningful in niche scenarios.
+   Γöé
+   = `public` functions can be called from PTBs. `entry` can be used to allow non-`public` functions to be called from PTBs, but it adds restrictions on the usage of input arguments and on the type of return values. Unless this `public` function interacts with an intricate set of other `entry` functions, the `entry` modifier should be removed.
+   = This warning can be suppressed with '#[allow(lint(public_entry))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[Lint W99010]: unnecessary `entry` on a `public` function
+   ΓöîΓöÇ .\sources\forge_swap.move:96:12
+   Γöé
+96 Γöé     public entry fun swap_forge_for_sui(
+   Γöé            ^^^^^ `entry` on `public` functions limits composability as it adds restrictions, e.g. the type of each return value must have `drop`. `entry` on `public` is only meaningful in niche scenarios.
+   Γöé
+   = `public` functions can be called from PTBs. `entry` can be used to allow non-`public` functions to be called from PTBs, but it adds restrictions on the usage of input arguments and on the type of return values. Unless this `public` function interacts with an intricate set of other `entry` functions, the `entry` modifier should be removed.
+   = This warning can be suppressed with '#[allow(lint(public_entry))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[Lint W99010]: unnecessary `entry` on a `public` function
+   ΓöîΓöÇ .\sources\marketplace.move:76:12
+   Γöé
+76 Γöé     public entry fun create_listing(
+   Γöé            ^^^^^ `entry` on `public` functions limits composability as it adds restrictions, e.g. the type of each return value must have `drop`. `entry` on `public` is only meaningful in niche scenarios.
+   Γöé
+   = `public` functions can be called from PTBs. `entry` can be used to allow non-`public` functions to be called from PTBs, but it adds restrictions on the usage of input arguments and on the type of return values. Unless this `public` function interacts with an intricate set of other `entry` functions, the `entry` modifier should be removed.
+   = This warning can be suppressed with '#[allow(lint(public_entry))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[Lint W99010]: unnecessary `entry` on a `public` function
+    ΓöîΓöÇ .\sources\marketplace.move:110:12
+    Γöé
+110 Γöé     public entry fun purchase_hero(
+    Γöé            ^^^^^ `entry` on `public` functions limits composability as it adds restrictions, e.g. the type of each return value must have `drop`. `entry` on `public` is only meaningful in niche scenarios.
+    Γöé
+    = `public` functions can be called from PTBs. `entry` can be used to allow non-`public` functions to be called from PTBs, but it adds restrictions on the usage of input arguments and on the type of return values. Unless this `public` function interacts with an intricate set of other `entry` functions, the `entry` modifier should be removed.
+    = This warning can be suppressed with '#[allow(lint(public_entry))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning[Lint W99010]: unnecessary `entry` on a `public` function
+    ΓöîΓöÇ .\sources\marketplace.move:154:12
+    Γöé
+154 Γöé     public entry fun cancel_listing(
+    Γöé            ^^^^^ `entry` on `public` functions limits composability as it adds restrictions, e.g. the type of each return value must have `drop`. `entry` on `public` is only meaningful in niche scenarios.
+    Γöé
+    = `public` functions can be called from PTBs. `entry` can be used to allow non-`public` functions to be called from PTBs, but it adds restrictions on the usage of input arguments and on the type of return values. Unless this `public` function interacts with an intricate set of other `entry` functions, the `entry` modifier should be removed.
+    = This warning can be suppressed with '#[allow(lint(public_entry))]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+Failed to build Move modules: Compilation error.

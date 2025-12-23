@@ -22,6 +22,16 @@ module hero_marketplace::forge_token {
     }
 
     /// Mint FORGE tokens (only callable by treasury owner)
+    public entry fun mint_and_transfer(
+        treasury: &mut coin::TreasuryCap<FORGE_TOKEN>,
+        amount: u64,
+        ctx: &mut sui::tx_context::TxContext
+    ) {
+        let minted = coin::mint(treasury, amount, ctx);
+        sui::transfer::public_transfer(minted, sui::tx_context::sender(ctx));
+    }
+
+    /// Mint FORGE tokens (returns coin for programmatic use)
     public fun mint(
         treasury: &mut coin::TreasuryCap<FORGE_TOKEN>,
         amount: u64,
