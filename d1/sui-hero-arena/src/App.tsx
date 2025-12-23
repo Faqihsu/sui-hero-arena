@@ -16,7 +16,7 @@ import {
   Leaderboard,
   PlayerStatsDisplay,
   DailyBonusCard,
-  MarketplacePreview
+  Marketplace
 } from '@/components';
 import { BattleFight, HeroOnChain } from "@/components/BattleFight";
 import { useHeroes, useTransfer, useMintHero, useTrainHero, useTransferHero, useToast, useDeleteHero } from '@/hooks';
@@ -368,7 +368,7 @@ const App: React.FC = () => {
 
         {activeTab === 'leaderboard' && <Leaderboard currentPlayerStats={playerStats} />}
 
-        {activeTab === 'marketplace' && <MarketplacePreview activeListings={12} recentTrades={234} totalVolume={5820} />}
+        {activeTab === 'marketplace' && <Marketplace />}
       </main>
 
       {showTransferModal && transferHero && (

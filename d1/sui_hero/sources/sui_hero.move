@@ -18,6 +18,7 @@ module sui_hero::hero {
         damage: u64,
         chakra: u64,
         image_url: String,
+        hero_class: String,
     }
 
     fun init(otw: HERO, ctx: &mut TxContext) {
@@ -29,7 +30,8 @@ module sui_hero::hero {
             b"defense".to_string(),
             b"damage".to_string(),
             b"chakra".to_string(),
-            b"image_url".to_string()
+            b"image_url".to_string(),
+            b"hero_class".to_string()
         ];
 
         let values = vector[
@@ -40,7 +42,8 @@ module sui_hero::hero {
             b"{defense}".to_string(),
             b"{damage}".to_string(),
             b"{chakra}".to_string(),
-            b"{image_url}".to_string()
+            b"{image_url}".to_string(),
+            b"{hero_class}".to_string()
         ];
 
         let publisher = package::claim(otw, ctx);
@@ -53,7 +56,7 @@ module sui_hero::hero {
     }
 
     // Mint Hero baru
-    public entry fun mint_hero(name: String, image_url: String, ctx: &mut TxContext) {
+    public entry fun mint_hero(name: String, image_url: String, hero_class: String, ctx: &mut TxContext) {
         let hero = Hero {
             id: object::new(ctx),
             name,
@@ -64,6 +67,7 @@ module sui_hero::hero {
             damage: 0,
             chakra: 50,
             image_url,
+            hero_class,
         };
 
         transfer::public_transfer(hero, tx_context::sender(ctx));

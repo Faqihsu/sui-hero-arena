@@ -20,3 +20,4 @@ export { PlayerStatsDisplay } from './PlayerStatsDisplay';
 export { DailyBonusCard } from './DailyBonusCard';
 export { MarketplacePreview } from './MarketplacePreview';
 export { HeroSelector } from './HeroSelector';
+export { Marketplace } from './Marketplace';

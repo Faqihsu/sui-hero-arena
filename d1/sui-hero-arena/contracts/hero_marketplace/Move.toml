@@ -1,0 +1,9 @@
+[package]
+name = "hero_marketplace"
+edition = "2024.beta"
+
+[dependencies]
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "testnet" }
+
+[addresses]
+hero_marketplace = "0x0"
