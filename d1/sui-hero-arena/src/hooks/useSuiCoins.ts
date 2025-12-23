@@ -42,8 +42,8 @@ export const useSuiCoins = () => {
         }, 0);
         setSuiBalance(totalSui.toString());
 
-        // Fetch FORGE coins
-        const forgeCoinType = '0x591bd66d7536a9f4625a05077305b02f79ee9c49f6865b5a40858bef145ed654::forge_swap::FORGE';
+        // Fetch FORGE coins - using forge_token::FORGE_TOKEN type
+        const forgeCoinType = '0x591bd66d7536a9f4625a05077305b02f79ee9c49f6865b5a40858bef145ed654::forge_token::FORGE_TOKEN';
         try {
           const forgeCoinsData = await client.getCoins({
             owner: account.address,

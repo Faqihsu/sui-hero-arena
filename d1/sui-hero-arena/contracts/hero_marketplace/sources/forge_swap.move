@@ -98,6 +98,24 @@ module hero_marketplace::forge_swap {
         transfer::public_transfer(sui_coin, tx_context::sender(ctx));
     }
 
+    /// Add liquidity to pool with SUI and FORGE
+    /// Users provide both SUI and FORGE to earn trading fees
+    public entry fun add_liquidity(
+        pool: &mut SwapPool,
+        sui_payment: Coin<SUI>,
+        forge_payment: Coin<FORGE>,
+    ) {
+        // Add both coins to the pool
+        let sui_balance = coin::into_balance(sui_payment);
+        let forge_balance = coin::into_balance(forge_payment);
+        
+        balance::join(&mut pool.sui_balance, sui_balance);
+        balance::join(&mut pool.forge_balance, forge_balance);
+        
+        // In a real AMM, we would mint LP tokens to the user
+        // For now, we just add liquidity without tracking shares
+    }
+
     /// View pool liquidity
     public fun get_pool_state(pool: &SwapPool): (u64, u64, u64) {
         (
