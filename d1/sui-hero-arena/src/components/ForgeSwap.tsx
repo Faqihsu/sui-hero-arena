@@ -49,15 +49,31 @@ export const ForgeSwap: React.FC<ForgeSwapProps> = ({ onSwapSuccess, onSwapError
 
         if (poolObject.data?.content && 'fields' in poolObject.data.content) {
           const fields = poolObject.data.content.fields as any;
+          const fetchedSuiBalance = fields.sui_balance ? parseInt(fields.sui_balance) : 0;
+          const fetchedForgeBalance = fields.forge_balance ? parseInt(fields.forge_balance) : 0;
+          
+          // Use fetched data if available, otherwise use mock
           setPoolState({
-            suiBalance: fields.sui_balance?.toString() || (10 * 1e9).toString(),
-            forgeBalance: fields.forge_balance?.toString() || (1000000 * 1e3).toString(),
+            suiBalance: fetchedSuiBalance > 0 ? fetchedSuiBalance.toString() : (10 * 1e9).toString(),
+            forgeBalance: fetchedForgeBalance > 0 ? fetchedForgeBalance.toString() : (1000000 * 1e3).toString(),
             totalSupply: fields.total_supply?.toString() || '0',
+          });
+        } else {
+          // If pool empty or not found, use mock data
+          setPoolState({
+            suiBalance: (10 * 1e9).toString(),
+            forgeBalance: (1000000 * 1e3).toString(),
+            totalSupply: '0',
           });
         }
       } catch (error) {
         console.error('Failed to fetch pool state:', error);
-        // Keep mock data on error
+        // Use mock data on error
+        setPoolState({
+          suiBalance: (10 * 1e9).toString(),
+          forgeBalance: (1000000 * 1e3).toString(),
+          totalSupply: '0',
+        });
       }
     };
 
