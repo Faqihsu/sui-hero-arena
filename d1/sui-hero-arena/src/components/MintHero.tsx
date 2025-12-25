@@ -8,6 +8,12 @@ export const MintHeroComponent: React.FC = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [heroClass, setHeroClass] = useState('Assassin');
   const [message, setMessage] = useState('');
+  const [imagePreview, setImagePreview] = useState('');
+
+  const handleImageChange = (url: string) => {
+    setImageUrl(url);
+    setImagePreview(url);
+  };
 
   const handleMint = async () => {
     if (!name.trim() || !imageUrl.trim()) {
@@ -18,12 +24,13 @@ export const MintHeroComponent: React.FC = () => {
     try {
       setLoading(true);
       setMessage('⏳ Minting hero...');
-      
+
       await mint({ name, imageUrl, heroClass });
-      
+
       setMessage('✅ Hero minted successfully!');
       setName('');
       setImageUrl('');
+      setImagePreview('');
     } catch (error) {
       const msg = error instanceof Error ? error.message : String(error);
       setMessage(`❌ Error: ${msg}`);
@@ -34,53 +41,75 @@ export const MintHeroComponent: React.FC = () => {
   };
 
   if (!isConnected) {
-    return <div className="text-red-400">❌ Connect wallet first</div>;
+    return (
+      <div className="card-glow p-6 rounded-xl text-center">
+        <p className="text-red-400 font-bold">❌ Connect your wallet first!</p>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-4 p-6 bg-cyan-950/40 rounded-lg border border-cyan-500/30">
-      <h2 className="text-2xl font-bold text-cyan-300">🔨 Mint Hero</h2>
-      
+    <div className="card-glow p-6 rounded-xl space-y-4">
+      <h2 className="text-2xl font-bold glow-text-cyan text-center">🔨 Forge New Hero</h2>
+
+      {/* Image Preview */}
+      {imagePreview && (
+        <div className="relative rounded-lg overflow-hidden h-40 mb-4">
+          <img
+            src={imagePreview}
+            alt="preview"
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+        </div>
+      )}
+
       <input
         type="text"
-        placeholder="Hero name"
+        placeholder="Hero name (e.g., Shadow Knight)"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="w-full px-4 py-2 bg-cyan-900/50 border border-cyan-500/30 rounded text-white placeholder-cyan-400/50"
+        className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/30 rounded-lg text-white placeholder-cyan-400/50 focus:outline-none focus:border-cyan-500 transition-all"
         disabled={loading}
       />
-      
+
       <input
         type="url"
-        placeholder="Image URL"
+        placeholder="Image URL (e.g., https://...)"
         value={imageUrl}
-        onChange={(e) => setImageUrl(e.target.value)}
-        className="w-full px-4 py-2 bg-cyan-900/50 border border-cyan-500/30 rounded text-white placeholder-cyan-400/50"
+        onChange={(e) => handleImageChange(e.target.value)}
+        className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/30 rounded-lg text-white placeholder-cyan-400/50 focus:outline-none focus:border-cyan-500 transition-all"
         disabled={loading}
       />
 
       <select
         value={heroClass}
         onChange={(e) => setHeroClass(e.target.value)}
-        className="w-full px-4 py-2 bg-cyan-900/50 border border-cyan-500/30 rounded text-white"
+        className="w-full px-4 py-3 bg-slate-800/50 border border-cyan-500/30 rounded-lg text-white focus:outline-none focus:border-cyan-500 transition-all"
         disabled={loading}
       >
         <option>Assassin</option>
         <option>Warrior</option>
         <option>Mage</option>
         <option>Paladin</option>
+        <option>Ranger</option>
+        <option>Rogue</option>
       </select>
 
       <button
         onClick={handleMint}
         disabled={loading}
-        className="w-full px-4 py-3 bg-cyan-600 hover:bg-cyan-700 text-white font-bold rounded disabled:opacity-50"
+        className="w-full btn-primary text-lg py-3"
       >
         {loading ? '⏳ Processing...' : '✨ Mint Hero'}
       </button>
 
       {message && (
-        <p className="text-sm text-center break-all">{message}</p>
+        <p className="text-sm text-center break-all p-3 rounded-lg bg-slate-800/50 border border-cyan-500/20 animate-slide-up">
+          {message}
+        </p>
       )}
     </div>
   );
