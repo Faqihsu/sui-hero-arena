@@ -1,19 +1,20 @@
-// FORGE Token Module - Custom token for the Sui Hero Arena marketplace
+#[allow(duplicate_alias, deprecated_usage, lint(self_transfer))]
 module hero_marketplace::forge_token {
     use sui::coin;
+    use sui::tx_context::TxContext;
 
     /// The type identifier for FORGE token
     public struct FORGE_TOKEN has drop {}
 
     /// One-time witness function to initialize the FORGE token
-    fun init(witness: FORGE_TOKEN, ctx: &mut sui::tx_context::TxContext) {
-        let (treasury, metadata) = coin::create_currency<FORGE_TOKEN>(
+    fun init(witness: FORGE_TOKEN, ctx: &mut TxContext) {
+        let (treasury, metadata) = sui::coin::create_currency<FORGE_TOKEN>(
             witness,
             8,  // decimals
             b"FORGE",  // symbol
             b"Forge Token",  // name
             b"Token for Sui Hero Arena Marketplace - Trade heroes with FORGE tokens",  // description
-            option::none(),  // icon_url
+            std::option::none(),  // icon_url
             ctx
         );
 
@@ -22,29 +23,29 @@ module hero_marketplace::forge_token {
     }
 
     /// Mint FORGE tokens (only callable by treasury owner)
-    public entry fun mint_and_transfer(
-        treasury: &mut coin::TreasuryCap<FORGE_TOKEN>,
+    public fun mint_and_transfer(
+        treasury: &mut sui::coin::TreasuryCap<FORGE_TOKEN>,
         amount: u64,
-        ctx: &mut sui::tx_context::TxContext
+        ctx: &mut TxContext
     ) {
-        let minted = coin::mint(treasury, amount, ctx);
+        let minted = sui::coin::mint(treasury, amount, ctx);
         sui::transfer::public_transfer(minted, sui::tx_context::sender(ctx));
     }
 
     /// Mint FORGE tokens (returns coin for programmatic use)
     public fun mint(
-        treasury: &mut coin::TreasuryCap<FORGE_TOKEN>,
+        treasury: &mut sui::coin::TreasuryCap<FORGE_TOKEN>,
         amount: u64,
-        ctx: &mut sui::tx_context::TxContext
-    ): coin::Coin<FORGE_TOKEN> {
-        coin::mint(treasury, amount, ctx)
+        ctx: &mut TxContext
+    ): sui::coin::Coin<FORGE_TOKEN> {
+        sui::coin::mint(treasury, amount, ctx)
     }
 
     /// Burn FORGE tokens
     public fun burn(
-        treasury: &mut coin::TreasuryCap<FORGE_TOKEN>,
-        coin_to_burn: coin::Coin<FORGE_TOKEN>
+        treasury: &mut sui::coin::TreasuryCap<FORGE_TOKEN>,
+        coin_to_burn: sui::coin::Coin<FORGE_TOKEN>
     ) {
-        coin::burn(treasury, coin_to_burn);
+        sui::coin::burn(treasury, coin_to_burn);
     }
 }

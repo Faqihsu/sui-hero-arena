@@ -2,10 +2,8 @@
 module hero_marketplace::forge_swap {
     use sui::coin::{Self, Coin};
     use sui::balance::{Self, Balance};
-    use sui::object::{Self, UID};
+    use sui::object::UID;
     use sui::sui::SUI;
-    use sui::transfer;
-    use sui::tx_context::TxContext;
 
     /// The FORGE_SWAP one-time witness (required for init function)
     public struct FORGE_SWAP has drop {}
@@ -29,88 +27,88 @@ module hero_marketplace::forge_swap {
         // Create an empty swap pool that will be populated manually
         // This is a workaround for the one-time witness requirement
         let pool = SwapPool {
-            id: object::new(ctx),
-            forge_balance: balance::zero(),
-            sui_balance: balance::zero(),
+            id: sui::object::new(ctx),
+            forge_balance: sui::balance::zero(),
+            sui_balance: sui::balance::zero(),
             forge_per_sui: 100_000, // 1 SUI = 100,000 FORGE
         };
 
-        transfer::share_object(pool);
+        sui::transfer::share_object(pool);
     }
 
     /// Initialize pool with FORGE tokens
     /// This should be called after minting FORGE tokens to populate the swap pool
-    public entry fun init_pool_with_forge(
+    public fun init_pool_with_forge(
         pool: &mut SwapPool,
         forge_coins: Coin<FORGE>,
     ) {
-        let forge_balance = coin::into_balance(forge_coins);
-        balance::join(&mut pool.forge_balance, forge_balance);
+        let forge_balance = sui::coin::into_balance(forge_coins);
+        sui::balance::join(&mut pool.forge_balance, forge_balance);
     }
 
     /// Swap SUI for FORGE
     /// Amount: SUI amount in MIST (1 SUI = 1,000,000,000 MIST)
     /// Example: 10,000,000,000 MIST = 0.01 SUI = 1,000 FORGE
-    public entry fun swap_sui_for_forge(
+    public fun swap_sui_for_forge(
         pool: &mut SwapPool,
         sui_payment: Coin<SUI>,
         ctx: &mut TxContext
     ) {
-        let sui_amount = coin::value(&sui_payment);
+        let sui_amount = sui::coin::value(&sui_payment);
         
         // Calculate FORGE amount: (sui_amount / 1_000_000_000) * 100_000
         // Simplified: (sui_amount * 100_000) / 1_000_000_000
         let forge_amount = (sui_amount / 10_000_000); // This gives us the rate: 0.01 SUI = 1000 FORGE
 
         // Get FORGE from pool
-        let forge = balance::split(&mut pool.forge_balance, forge_amount);
-        let forge_coin = coin::from_balance(forge, ctx);
+        let forge = sui::balance::split(&mut pool.forge_balance, forge_amount);
+        let forge_coin = sui::coin::from_balance(forge, ctx);
 
         // Add SUI to pool
-        let sui_balance = coin::into_balance(sui_payment);
-        balance::join(&mut pool.sui_balance, sui_balance);
+        let sui_balance = sui::coin::into_balance(sui_payment);
+        sui::balance::join(&mut pool.sui_balance, sui_balance);
 
         // Transfer FORGE to user
-        transfer::public_transfer(forge_coin, tx_context::sender(ctx));
+        sui::transfer::public_transfer(forge_coin, sui::tx_context::sender(ctx));
     }
 
     /// Swap FORGE for SUI
-    public entry fun swap_forge_for_sui(
+    public fun swap_forge_for_sui(
         pool: &mut SwapPool,
         forge_payment: Coin<FORGE>,
         ctx: &mut TxContext
     ) {
-        let forge_amount = coin::value(&forge_payment);
+        let forge_amount = sui::coin::value(&forge_payment);
         
         // Calculate SUI amount: (forge_amount * 1_000_000_000) / 100_000
         // Simplified: forge_amount * 10_000
         let sui_amount = (forge_amount * 10_000);
 
         // Get SUI from pool
-        let sui = balance::split(&mut pool.sui_balance, sui_amount);
-        let sui_coin = coin::from_balance(sui, ctx);
+        let sui = sui::balance::split(&mut pool.sui_balance, sui_amount);
+        let sui_coin = sui::coin::from_balance(sui, ctx);
 
         // Add FORGE to pool
-        let forge_balance = coin::into_balance(forge_payment);
-        balance::join(&mut pool.forge_balance, forge_balance);
+        let forge_balance = sui::coin::into_balance(forge_payment);
+        sui::balance::join(&mut pool.forge_balance, forge_balance);
 
         // Transfer SUI to user
-        transfer::public_transfer(sui_coin, tx_context::sender(ctx));
+        sui::transfer::public_transfer(sui_coin, sui::tx_context::sender(ctx));
     }
 
     /// Add liquidity to pool with SUI and FORGE
     /// Users provide both SUI and FORGE to earn trading fees
-    public entry fun add_liquidity(
+    public fun add_liquidity(
         pool: &mut SwapPool,
         sui_payment: Coin<SUI>,
         forge_payment: Coin<FORGE>,
     ) {
         // Add both coins to the pool
-        let sui_balance = coin::into_balance(sui_payment);
-        let forge_balance = coin::into_balance(forge_payment);
+        let sui_balance = sui::coin::into_balance(sui_payment);
+        let forge_balance = sui::coin::into_balance(forge_payment);
         
-        balance::join(&mut pool.sui_balance, sui_balance);
-        balance::join(&mut pool.forge_balance, forge_balance);
+        sui::balance::join(&mut pool.sui_balance, sui_balance);
+        sui::balance::join(&mut pool.forge_balance, forge_balance);
         
         // In a real AMM, we would mint LP tokens to the user
         // For now, we just add liquidity without tracking shares

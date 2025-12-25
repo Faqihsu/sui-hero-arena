@@ -1,9 +1,11 @@
+#[allow(duplicate_alias)]
 // Marketplace Module - Handle hero listing, buying, and selling
 module hero_marketplace::marketplace {
     use sui::balance::Balance;
-    use sui::coin::{Coin};
+    use sui::coin::{Self, Coin};
     use sui::table::{Self, Table};
     use sui::event;
+    use sui::object;
     use std::string::String;
 
     use hero_marketplace::forge_token::FORGE_TOKEN;
@@ -60,20 +62,20 @@ module hero_marketplace::marketplace {
     // ===== Functions =====
 
     /// Initialize marketplace (called once)
-    fun init(ctx: &mut TxContext) {
+    fun init(ctx: &mut sui::tx_context::TxContext) {
         let marketplace = MarketplaceAdmin {
-            id: sui::object::new(ctx),
+            id: object::new(ctx),
             listings: table::new(ctx),
             escrow: table::new(ctx),
             total_volume: 0,
             transaction_count: 0,
         };
 
-        transfer::share_object(marketplace);
+        sui::transfer::share_object(marketplace);
     }
 
     /// Create a new listing for a hero
-    public entry fun create_listing(
+    public fun create_listing(
         marketplace: &mut MarketplaceAdmin,
         hero_id: String,
         hero_name: String,
@@ -81,25 +83,25 @@ module hero_marketplace::marketplace {
         level: u64,
         rarity: String,
         image_url: String,
-        ctx: &mut TxContext
+        ctx: &mut sui::tx_context::TxContext
     ) {
         assert!(price > 0, EInvalidPrice);
 
         let listing = HeroListing {
-            id: sui::object::new(ctx),
+            id: object::new(ctx),
             hero_id: hero_id,
             hero_name: hero_name,
-            seller: tx_context::sender(ctx),
+            seller: sui::tx_context::sender(ctx),
             price: price,
             level: level,
             rarity: rarity,
             image_url: image_url,
-            created_at: tx_context::epoch(ctx),
+            created_at: sui::tx_context::epoch(ctx),
         };
 
         event::emit(ListingCreated {
             hero_id: hero_id,
-            seller: tx_context::sender(ctx),
+            seller: sui::tx_context::sender(ctx),
             price: price,
         });
 
@@ -107,22 +109,22 @@ module hero_marketplace::marketplace {
     }
 
     /// Purchase a hero from the marketplace
-    public entry fun purchase_hero(
+    public fun purchase_hero(
         marketplace: &mut MarketplaceAdmin,
         hero_id: String,
         payment: Coin<FORGE_TOKEN>,
-        ctx: &mut TxContext
+        ctx: &mut sui::tx_context::TxContext
     ) {
         assert!(table::contains(&marketplace.listings, hero_id), EListingNotFound);
 
         let listing = table::remove(&mut marketplace.listings, hero_id);
-        let buyer = tx_context::sender(ctx);
+        let buyer = sui::tx_context::sender(ctx);
 
-        assert!(sui::coin::value(&payment) == listing.price, EInvalidAmount);
-        assert!(sui::coin::value(&payment) > 0, EInsufficientBalance);
+        assert!(coin::value(&payment) == listing.price, EInvalidAmount);
+        assert!(coin::value(&payment) > 0, EInsufficientBalance);
 
         // Transfer payment to seller
-        transfer::public_transfer(payment, listing.seller);
+        sui::transfer::public_transfer(payment, listing.seller);
 
         // Update marketplace stats
         marketplace.total_volume = marketplace.total_volume + listing.price;
@@ -147,19 +149,19 @@ module hero_marketplace::marketplace {
             image_url: _, 
             created_at: _ 
         } = listing;
-        sui::object::delete(id);
+        object::delete(id);
     }
 
     /// Cancel a listing
-    public entry fun cancel_listing(
+    public fun cancel_listing(
         marketplace: &mut MarketplaceAdmin,
         hero_id: String,
-        ctx: &mut TxContext
+        ctx: &mut sui::tx_context::TxContext
     ) {
         assert!(table::contains(&marketplace.listings, hero_id), EListingNotFound);
 
         let listing = table::remove(&mut marketplace.listings, hero_id);
-        assert!(listing.seller == tx_context::sender(ctx), ENotListingOwner);
+        assert!(listing.seller == sui::tx_context::sender(ctx), ENotListingOwner);
 
         event::emit(ListingCancelled {
             hero_id: hero_id,
@@ -177,7 +179,7 @@ module hero_marketplace::marketplace {
             image_url: _, 
             created_at: _ 
         } = listing;
-        sui::object::delete(id);
+        object::delete(id);
     }
 
     /// Get marketplace stats (view function)
