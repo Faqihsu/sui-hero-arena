@@ -1,33 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createNetworkConfig, SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
-import { getFullnodeUrl } from '@mysten/sui/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { createSuiClient } from '@mysten/sui/client'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { SuiClientProvider, WalletProvider } from '@mysten/dapp-kit'
+import '@mysten/dapp-kit/dist/index.css'
+import App from './App'
+import './index.css'
 
-// Config options for the networks you want to connect to
-const { networkConfig } = createNetworkConfig({
-  testnet: { url: getFullnodeUrl('testnet') },
-  mainnet: { url: getFullnodeUrl('mainnet') },
-  localnet: { url: getFullnodeUrl('localnet') },
-});
+const queryClient = new QueryClient()
+const suiClient = createSuiClient({ url: 'https://fullnode.testnet.sui.io:443' })
 
-const queryClient = new QueryClient();
-
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
-}
-  
-const root = ReactDOM.createRoot(rootElement);
-root.render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
+      <SuiClientProvider defaultClient={suiClient}>
         <WalletProvider>
           <App />
         </WalletProvider>
       </SuiClientProvider>
     </QueryClientProvider>
-  </React.StrictMode>
-);
+  </React.StrictMode>,
+)

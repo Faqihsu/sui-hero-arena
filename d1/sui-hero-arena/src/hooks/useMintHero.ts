@@ -1,90 +1,41 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSignAndExecuteTransaction, useCurrentAccount } from '@mysten/dapp-kit';
 import { Transaction } from '@mysten/sui/transactions';
 import { CONTRACT_CONFIG } from '@/config/contract';
-import { HeroClass } from '@/types';
+import { MintHeroData } from '@/types';
 
-interface MintHeroData {
-  name: string;
-  imageUrl: string;
-  heroClass?: HeroClass;
-}
-
-interface UseMintHeroOptions {
-  onSuccess?: () => void;
-  onError?: (error: Error) => void;
-  showToast?: (message: string, type: 'success' | 'error') => void;
-}
-
-export const useMintHero = (options?: UseMintHeroOptions) => {
-  const queryClient = useQueryClient();
-  const currentAccount = useCurrentAccount();
+export const useMintHero = () => {
+  const account = useCurrentAccount();
   const { mutateAsync: signAndExecuteTransaction } = useSignAndExecuteTransaction();
 
-  return useMutation({
-    mutationFn: async (data: MintHeroData) => {
-      if (!currentAccount) {
-        throw new Error('Please connect your wallet first');
-      }
-
-      const tx = new Transaction();
-      tx.moveCall({
-        target: `${CONTRACT_CONFIG.PACKAGE_ID}::${CONTRACT_CONFIG.MODULE_NAME}::mint_hero`,
-        arguments: [
-          tx.pure.string(data.name),
-          tx.pure.string(data.imageUrl),
-          tx.pure.string(data.heroClass || 'Assassin'),
-        ],
-      });
-
-      const result = await signAndExecuteTransaction({
-        transaction: tx
-      });
-
-      return result;
-    },
-    onSuccess: async (result) => {
-      options?.showToast?.('Hero successfully minted! Refreshing collection...', 'success');
-
-      // Immediately invalidate and refetch for real-time updates
-      // Match any query that contains 'getOwnedObjects' (useSuiClientQuery generates its own keys)
-      queryClient.invalidateQueries({ 
-        predicate: (query) => {
-          const key = query.queryKey;
-          return Array.isArray(key) && key.some((k: any) => 
-            typeof k === 'string' && k.includes('getOwnedObjects')
-          );
-        }
-      });
-      await queryClient.refetchQueries({ 
-        predicate: (query) => {
-          const key = query.queryKey;
-          return Array.isArray(key) && key.some((k: any) => 
-            typeof k === 'string' && k.includes('getOwnedObjects')
-          );
-        }
-      });
-
-      // Backup refetch
-      setTimeout(async () => {
-        await queryClient.refetchQueries({ 
-          predicate: (query) => {
-            const key = query.queryKey;
-            return Array.isArray(key) && key.some((k: any) => 
-              typeof k === 'string' && k.includes('getOwnedObjects')
-            );
-          }
-        });
-      }, 2000);
-
-      options?.onSuccess?.();
-    },
-    onError: (error) => {
-      console.error('Error minting hero:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to mint hero. Please try again.';
-      options?.showToast?.(errorMessage, 'error');
-      options?.onError?.(error instanceof Error ? error : new Error(errorMessage));
+  const mint = async (data: MintHeroData) => {
+    if (!account?.address) {
+      throw new Error('Wallet not connected');
     }
-  });
+
+    const tx = new Transaction();
+    
+    // Add move call
+    tx.moveCall({
+      target: `${CONTRACT_CONFIG.PACKAGE_ID}::${CONTRACT_CONFIG.MODULE_NAME}::mint_hero`,
+      arguments: [
+        tx.pure.string(data.name),
+        tx.pure.string(data.imageUrl),
+        tx.pure.string(data.heroClass),
+      ],
+    });
+
+    // Set explicit gas budget (0.1 SUI = 100,000,000 MIST)
+    tx.setGasBudget(100_000_000);
+
+    console.log('📤 Sending mint transaction...');
+    const result = await signAndExecuteTransaction({
+      transaction: tx,
+    });
+
+    console.log('✅ Mint success:', result.digest);
+    return result;
+  };
+
+  return { mint, isConnected: !!account };
 };
 
