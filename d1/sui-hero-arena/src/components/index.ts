@@ -3,3 +3,7 @@ export { ForgeSwapComponent } from './ForgeSwap';
 export { HeroCard } from './HeroCard';
 export { HeroCollection } from './HeroCollection';
 export { BattleArena } from './BattleArena';
+export { Dashboard } from './Dashboard';
+export { Leaderboard } from './Leaderboard';
+export { Inventory } from './Inventory';
+export { Shop } from './Shop';

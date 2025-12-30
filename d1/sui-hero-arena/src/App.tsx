@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { ConnectButton } from '@mysten/dapp-kit';
-import { MintHeroComponent, ForgeSwapComponent, HeroCollection, BattleArena } from '@/components';
+import { MintHeroComponent, ForgeSwapComponent, HeroCollection, BattleArena, Dashboard, Leaderboard, Inventory, Shop } from '@/components';
 import './App.css';
 
-type Tab = 'home' | 'collection' | 'forge' | 'swap' | 'battle';
+type Tab = 'home' | 'dashboard' | 'inventory' | 'leaderboard' | 'forge' | 'shop' | 'battle';
 
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
 
   const tabs: { id: Tab; label: string; icon: string }[] = [
     { id: 'home', label: 'Home', icon: '🏠' },
-    { id: 'collection', label: 'Collection', icon: '🎨' },
+    { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+    { id: 'inventory', label: 'Inventory', icon: '🎒' },
+    { id: 'leaderboard', label: 'Leaderboard', icon: '🏆' },
     { id: 'forge', label: 'Forge', icon: '🔨' },
-    { id: 'swap', label: 'Swap', icon: '💰' },
+    { id: 'shop', label: 'Shop', icon: '🛍️' },
     { id: 'battle', label: 'Battle', icon: '⚔️' },
   ];
 
@@ -88,9 +90,11 @@ function App() {
           </div>
         )}
 
-        {activeTab === 'collection' && <HeroCollection />}
+        {activeTab === 'dashboard' && <Dashboard />}
+        {activeTab === 'inventory' && <Inventory />}
+        {activeTab === 'leaderboard' && <Leaderboard />}
         {activeTab === 'forge' && <MintHeroComponent />}
-        {activeTab === 'swap' && <ForgeSwapComponent />}
+        {activeTab === 'shop' && <Shop />}
         {activeTab === 'battle' && <BattleArena />}
       </main>
 

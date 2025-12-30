@@ -358,3 +358,20 @@ Transaction Digest: 6GsTXy8mPsoJSo3g7MWSEnBQJQnaGkp9yGJ1uanNie9B
 │  └──                                                                                           
    │
 ╰───────────────────────────────────────────
+
+✅ COIN DEPLOYED! Package ID: 0x62ee8bf8a0a4c16bf7aec56438a06ed1760ecd8542b327920fe6f10e8fa7a3f2
+
+✅ HERO DEPLOYED! Package ID: 0x17b8af10e1aa9acdf06fc792b98b9d6dd7bafe768fdd81015e5a4209dd2c5dd8
+
+✅ MARKETPLACE DEPLOYED! Package ID: 0x8e1fb4287f067fd5987baa7fecd0719bfdd3e4a7e1917f2e3126e3cbdc3d8c2b
+
+Contract	Package ID	Status
+Coin	0x62ee8bf8a0a4c16bf7aec56438a06ed1760ecd8542b327920fe6f10e8fa7a3f2	✅ Deployed
+Hero	0x17b8af10e1aa9acdf06fc792b98b9d6dd7bafe768fdd81015e5a4209dd2c5dd8	✅ Deployed
+Marketplace	0x8e1fb4287f067fd5987baa7fecd0719bfdd3e4a7e1917f2e3126e3cbdc3d8c2b	✅ Deployed
+
+
+Objects Created:
+✅ Marketplace Admin: 0xd85409d48fc152ba6a5f84cf12901cc134e2584712f049b5060dd0ecf1a1cddd
+✅ FORGE Treasury Cap: 0xbc50e8a6ae2ed574d188e4b0e7036705685aea6d8c73fc4a9dbee4e9adda3d3e
+✅ Swap Pool: 0xc30166afe9fb696e364040a794e412c42f79a953c3e008c497f65ed25676b28e

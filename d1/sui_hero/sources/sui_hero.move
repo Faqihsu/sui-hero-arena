@@ -1,10 +1,10 @@
+#[allow(duplicate_alias, lint(self_transfer))]
 module sui_hero::hero {
     use std::string::String;
     use sui::package;
     use sui::display;
-    use sui::tx_context::{Self, TxContext};
-    use sui::transfer;
-    use sui::object::{Self, UID};
+    use sui::tx_context;
+    use sui::object;
 
     public struct HERO has drop {} // one time witness
 
@@ -21,7 +21,7 @@ module sui_hero::hero {
         hero_class: String,
     }
 
-    fun init(otw: HERO, ctx: &mut TxContext) {
+    fun init(otw: HERO, ctx: &mut sui::tx_context::TxContext) {
         let keys = vector[
             b"name".to_string(),
             b"hp".to_string(),
@@ -46,19 +46,19 @@ module sui_hero::hero {
             b"{hero_class}".to_string()
         ];
 
-        let publisher = package::claim(otw, ctx);
-        let mut display = display::new_with_fields<Hero>(&publisher, keys, values, ctx);
+        let publisher = sui::package::claim(otw, ctx);
+        let mut display = sui::display::new_with_fields<Hero>(&publisher, keys, values, ctx);
 
-        display::update_version(&mut display);
+        sui::display::update_version(&mut display);
 
-        transfer::public_transfer(publisher, tx_context::sender(ctx));
-        transfer::public_transfer(display, tx_context::sender(ctx));
+        sui::transfer::public_transfer(publisher, sui::tx_context::sender(ctx));
+        sui::transfer::public_transfer(display, sui::tx_context::sender(ctx));
     }
 
     // Mint Hero baru
-    public entry fun mint_hero(name: String, image_url: String, hero_class: String, ctx: &mut TxContext) {
+    public fun mint_hero(name: String, image_url: String, hero_class: String, ctx: &mut sui::tx_context::TxContext) {
         let hero = Hero {
-            id: object::new(ctx),
+            id: sui::object::new(ctx),
             name,
             hp: 100,
             level: 1,
@@ -70,11 +70,11 @@ module sui_hero::hero {
             hero_class,
         };
 
-        transfer::public_transfer(hero, tx_context::sender(ctx));
+        sui::transfer::public_transfer(hero, sui::tx_context::sender(ctx));
     }
 
     // Latih hero: naik level + sedikit stat
-    public entry fun train_hero(hero: &mut Hero) {
+    public fun train_hero(hero: &mut Hero) {
         hero.level = hero.level + 1;
         hero.attack = hero.attack + 2;
         hero.defense = hero.defense + 1;
@@ -82,7 +82,7 @@ module sui_hero::hero {
     }
 
     // Battle: serangan pakai attack & chakra, dikurangi defense lawan
-    public entry fun fight(
+    public fun fight(
         hero1: &mut Hero,
         hero2: &mut Hero,
     ) {
